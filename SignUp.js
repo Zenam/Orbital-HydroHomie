@@ -21,27 +21,37 @@ export default class SignUp extends Component {
             <SafeAreaView style = {styles.container}>
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
    style = {styles.logo}/>
+                <Text style = {styles.text}>
+                    HydroHomie
+                </Text>
+                <Text style = {styles.subtext}>
+                    Your water drinking companion
+                </Text>
                 <TextInput
-                style = {styles.textInput}
-                placeholder = "Username"
-                onChangeText = {this.UpdateUsername}
-                //value = {this.state.Username}
+                    style = {styles.textInput}
+                    placeholder = "Username"
+                    onChangeText = {this.UpdateUsername}
+                    //value = {this.state.Username}
                 />
                 <TextInput
-                style = {styles.textInput}
-                placeholder = "Password"
-                onChangeText = {this.UpdatePassword}
-                //value = {this.state.Password}
+                    style = {styles.textInput}
+                    placeholder = "Password"
+                    onChangeText = {this.UpdatePassword}
+                    //value = {this.state.Password}
                 />
                 <View style = {styles.side}>
                     <BlueButton  
-                    onPress = {() => {alert('Enter')}}>
-                        Login
+                    onPress = {() => {alert('Welcome!')}}>
+                        <Text style = {styles.loginButton}>
+                            Login
+                        </Text>
                     </BlueButton>
                 
                     <BlueButton 
-                    onPress = {() => {alert('Welcome')}}>
-                        Sign Up
+                    onPress = {() => {alert('Sign Up successful!')}}>
+                        <Text style = {styles.signUpButton}>
+                            Sign Up
+                        </Text>
                     </BlueButton>
                 </View>
                 <Image source = 
@@ -63,13 +73,12 @@ const styles = StyleSheet.create({
     textInput: {
         color: 'black',
         marginTop: 15,
-       padding: 20,
-       height: 40,
-       width: 250,
-       borderColor: 'skyblue',
-       borderWidth: 1,
-       borderRadius: 8,
-       textAlign: 'center'
+        height: 40,
+        width: 250,
+        borderColor: 'skyblue',
+        borderWidth: 1,
+        borderRadius: 8,
+        textAlign: 'center'
     },
     logo: {
         marginTop: 120,
@@ -80,11 +89,38 @@ const styles = StyleSheet.create({
     side: {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center'
     },
      waves: {
         marginTop: 80,
         width: Dimensions.get('window').width,
         height: 400
         //resizeMode: 'contain'
+     },
+     text: {
+        marginTop: 20,
+        marginBottom: 10,
+        fontSize: 30,
+        fontWeight: 'bold',
+        width: 300,
+        textAlign: 'center',
+        fontFamily: 'monospace'
+     },
+     subtext: {
+        marginBottom: 20,
+        fontSize: 15,
+        width: 300,
+        textAlign: 'center',
+        fontFamily: 'monospace'
+     },
+     loginButton: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+     },
+     signUpButton: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
      }
 })
