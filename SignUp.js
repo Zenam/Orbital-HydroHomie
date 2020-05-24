@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView} from 'react-native';
 import BlueButton from './BlueButton.js';
 
 export default class SignUp extends Component {
     state = {
         Username: '',
-        Password: ''
+        Password: '',
+        signUpSuccessful: false
     }
 
     UpdateUsername = (NewUserName) => {
@@ -17,8 +18,9 @@ export default class SignUp extends Component {
     }
 
     render() {
+        const {Username, Password, signUpSuccessful} = this.state
         return (
-            <SafeAreaView style = {styles.container}>
+            <KeyboardAvoidingView behavior = 'padding' style = {styles.container}>
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
    style = {styles.logo}/>
                 <Text style = {styles.text}>
@@ -28,37 +30,54 @@ export default class SignUp extends Component {
                     Your water drinking companion
                 </Text>
                 <TextInput
-                    style = {styles.textInput}
-                    placeholder = "Username"
-                    onChangeText = {this.UpdateUsername}
-                    //value = {this.state.Username}
+                style = {styles.textInput}
+                placeholder = "Username"
+                onChangeText = {this.UpdateUsername}
+                //maxLength = {20}
+                value = {Username}
                 />
                 <TextInput
-                    style = {styles.textInput}
-                    placeholder = "Password"
-                    onChangeText = {this.UpdatePassword}
-                    //value = {this.state.Password}
+                style = {styles.textInput}
+                placeholder = "Password"
+                onChangeText = {this.UpdatePassword}
+                maxLength = {20}
+                value = {Password}
                 />
                 <View style = {styles.side}>
                     <BlueButton  
-                    onPress = {() => {alert('Welcome!')}}>
-                        <Text style = {styles.loginButton}>
-                            Login
-                        </Text>
+                    onPress = {() => {
+                        if (Username.length && Password.length) {
+                            this.setState({
+                                Username: '',
+                                Password: '',
+                                signUpSuccessful: true
+                            })
+                        } else {
+                            this.setState({
+                                Username: '',
+                                Password: '',
+                                signUpSuccessful: false
+                            })
+                        }
+                    }}>
+                        Sign Up
                     </BlueButton>
                 
                     <BlueButton 
-                    onPress = {() => {alert('Sign Up successful!')}}>
-                        <Text style = {styles.signUpButton}>
-                            Sign Up
-                        </Text>
+                    onPress = {() => {alert('Welcome')}}>
+                        Login
                     </BlueButton>
                 </View>
+                {
+                    signUpSuccessful ? 
+                    (<Text style = {styles.response}>Sign Up Successful!</Text>) : 
+                    (<Text style = {styles.response}>Invalid Username or Password</Text>)
+                }
                 <Image source = 
                 {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
                 
-            </SafeAreaView>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -73,12 +92,12 @@ const styles = StyleSheet.create({
     textInput: {
         color: 'black',
         marginTop: 15,
-        height: 40,
-        width: 250,
-        borderColor: 'skyblue',
-        borderWidth: 1,
-        borderRadius: 8,
-        textAlign: 'center'
+       height: 40,
+       width: 250,
+       borderColor: 'skyblue',
+       borderWidth: 1,
+       borderRadius: 8,
+       textAlign: 'center'
     },
     logo: {
         marginTop: 120,
@@ -89,13 +108,16 @@ const styles = StyleSheet.create({
     side: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center'
+    },
+    response: {
+        marginTop: 10,
+        fontSize: 12,
+        color: 'green'
     },
      waves: {
         marginTop: 80,
         width: Dimensions.get('window').width,
         height: 400
-        //resizeMode: 'contain'
      },
      text: {
         marginTop: 20,
@@ -104,23 +126,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: 300,
         textAlign: 'center',
-        fontFamily: 'monospace'
+        //fontFamily: 'monospace'
      },
      subtext: {
         marginBottom: 20,
         fontSize: 15,
         width: 300,
         textAlign: 'center',
-        fontFamily: 'monospace'
+        //fontFamily: 'monospace'
      },
-     loginButton: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-     },
-     signUpButton: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-     }
 })
