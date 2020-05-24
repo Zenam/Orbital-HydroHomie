@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const BlueButton = props => {
     return (
@@ -26,7 +26,8 @@ const styles = StyleSheet.create( {
         borderRadius: 8,
         borderColor: 'steelblue',
         backgroundColor: 'skyblue',
-        padding: 15,
+        paddingTop: 8,
+        paddingBottom: 21,
         textAlign: 'center',
         overflow: 'hidden'
     }
