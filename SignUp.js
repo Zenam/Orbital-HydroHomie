@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView} from 'react-native';
 import BlueButton from './BlueButton.js';
+import firebase from './firebaseDb.js';
 
 export default class SignUp extends Component {
     state = {
@@ -8,6 +9,17 @@ export default class SignUp extends Component {
         Password: '',
         signUpSuccessful: false
     }
+
+    handleCreateUser = () => firebasDb.js.firestore()
+        .collection('users')
+        .add({
+            username: this.state.Username,
+            password: this.state.Password
+        }).then(() => this.setState({
+            UserName: '',
+            Password: '',
+            signUpSuccessful: true
+        })).catch(err => console.error(err))
 
     UpdateUsername = (NewUserName) => {
         this.setState({UserName: NewUserName});
@@ -30,18 +42,18 @@ export default class SignUp extends Component {
                     Your water drinking companion
                 </Text>
                 <TextInput
-                style = {styles.textInput}
-                placeholder = "Username"
-                onChangeText = {this.UpdateUsername}
-                //maxLength = {20}
-                value = {Username}
+                    style = {styles.textInput}
+                    placeholder = "Username"
+                    onChangeText = {this.UpdateUsername}
+                    //maxLength = {20}
+                    //value = {Username}
                 />
                 <TextInput
-                style = {styles.textInput}
-                placeholder = "Password"
-                onChangeText = {this.UpdatePassword}
-                maxLength = {20}
-                value = {Password}
+                    style = {styles.textInput}
+                    placeholder = "Password"
+                    onChangeText = {this.UpdatePassword}
+                    maxLength = {20}
+                    //value = {Password}
                 />
                 <View style = {styles.side}>
                     <BlueButton  
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
         color: 'green'
     },
      waves: {
-        marginTop: 50,
+        marginTop: 80,
         width: Dimensions.get('window').width,
         height: 400
      },
