@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         color: 'green'
     },
      waves: {
-        marginTop: 80,
+        marginTop: 50,
         width: Dimensions.get('window').width,
         height: 400
      },
