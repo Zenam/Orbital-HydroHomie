@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView} from 'react-native';
 import BlueButton from './BlueButton.js';
-//import firebaseDb from './firebaseDb.js';
+import firebaseDb from './firebaseDb.js';
 
 export default class SignUp extends Component {
     state = {
@@ -10,7 +10,7 @@ export default class SignUp extends Component {
         signUpSuccessful: false
     }
 
-    /*handleCreateUser = () => firebaseDb
+    handleCreateUser = () => firebaseDb
         .firestore()
         .collection('users')
         .add({
@@ -19,12 +19,12 @@ export default class SignUp extends Component {
         })
         .then(() =>
             this.setState({
-                UserName: '',
+                Username: '',
                 Password: '',
                 signUpSuccessful: true
             })
         )
-        .catch((err) => console.error(err))*/
+        .catch((err) => console.error(err))
 
     UpdateUsername = (NewUserName) => {
         this.setState({UserName: NewUserName});
@@ -37,7 +37,7 @@ export default class SignUp extends Component {
     render() {
         const {Username, Password, signUpSuccessful} = this.state
         return (
-            <KeyboardAvoidingView behavior = 'padding' style = {styles.container}>  
+            <View behavior = 'padding' style = {styles.container}>
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
                     style = {styles.logo}/>
                 <Text style = {styles.text}>
@@ -61,11 +61,7 @@ export default class SignUp extends Component {
                 <View style = {styles.side}>
                     <BlueButton onPress = {() => {
                         if (Username.length > 0 && Password.length > 0) {
-                            this.setState({
-                                Username: '',
-                                Password: '',
-                                signUpSuccessful: true
-                            })
+                            this.handleCreateUser()
                         } else {
                             this.setState({
                                 Username: '',
@@ -73,11 +69,6 @@ export default class SignUp extends Component {
                                 signUpSuccessful: false
                             })
                         }
-                        /*{
-                            signUpSuccessful ?
-                            (<Text style = {styles.response}>Sign Up Successful!</Text>) :
-                            (<Text style = {styles.response}>Invalid Username or Password</Text>)
-                        }*/
                     }}>
                         <Text>
                             Sign Up
@@ -98,9 +89,9 @@ export default class SignUp extends Component {
 
 
                 <Image source = 
-                {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
+                    {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
-            </KeyboardAvoidingView>
+            </View>
         );
     }
 }
@@ -115,12 +106,12 @@ const styles = StyleSheet.create({
     textInput: {
         color: 'black',
         marginTop: 15,
-       height: 40,
-       width: 250,
-       borderColor: 'skyblue',
-       borderWidth: 1,
-       borderRadius: 8,
-       textAlign: 'center'
+        height: 40,
+        width: 250,
+        borderColor: 'skyblue',
+        borderWidth: 1,
+        borderRadius: 8,
+        textAlign: 'center'
     },
     logo: {
         marginTop: 80,
@@ -139,27 +130,26 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'green'
     },
-     waves: {
+    waves: {
         marginTop: 60,
         width: Dimensions.get('window').width,
         height: 350
-     },
-     text: {
+    },
+    text: {
         marginTop: 1,
-        paddingBottom: 20,
         marginBottom: 1,
         fontSize: 20,
         fontWeight: 'bold',
         width: 300,
         textAlign: 'center',
-        fontFamily: 'Optima'
-     },
-     subtext: {
+        //fontFamily: 'Optima'
+    },
+    subtext: {
         marginBottom: 2,
         padding: 15,
         fontSize: 12,
         width: 300,
         textAlign: 'center',
-        fontFamily: 'Optima'
-     },
+        //fontFamily: 'Optima'
+    },
 })

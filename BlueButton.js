@@ -27,7 +27,7 @@ const styles = StyleSheet.create( {
         borderColor: 'steelblue',
         backgroundColor: 'skyblue',
         paddingTop: 8,
-        paddingBottom: 21,
+        paddingBottom: 8,
         textAlign: 'center',
         overflow: 'hidden'
     }
