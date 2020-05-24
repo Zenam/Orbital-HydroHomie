@@ -10,7 +10,7 @@ export default class SignUp extends Component {
         signUpSuccessful: false
     }
 
-    handleCreateUser = () => firebasDb
+    handleCreateUser = () => firebaseDb
         .firestore()
         .collection('users')
         .add({
@@ -39,7 +39,7 @@ export default class SignUp extends Component {
         return (
             <KeyboardAvoidingView behavior = 'padding' style = {styles.container}>
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
-   style = {styles.logo}/>
+                    style = {styles.logo}/>
                 <Text style = {styles.text}>
                     HydroHomie
                 </Text>
@@ -51,19 +51,18 @@ export default class SignUp extends Component {
                     placeholder = "Username"
                     onChangeText = {this.UpdateUsername}
                     //maxLength = {20}
-                    //value = {Username}
+                    value = {Username}
                 />
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Password"
                     onChangeText = {this.UpdatePassword}
                     maxLength = {20}
-                    //value = {Password}
+                    value = {Password}
                 />
                 <View style = {styles.side}>
-                    <BlueButton  
-                    onPress = {() => {
-                        if (Username.length && Password.length) {
+                    <BlueButton onPress = {() => {
+                        if (Username.length > 0 && Password.length > 0) {
                             this.setState({
                                 Username: '',
                                 Password: '',
@@ -76,25 +75,29 @@ export default class SignUp extends Component {
                                 signUpSuccessful: false
                             })
                         }
+                        {
+                            signUpSuccessful ?
+                            (<Text style = {styles.response}>Sign Up Successful!</Text>) :
+                            (<Text style = {styles.response}>Invalid Username or Password</Text>)
+                        }
                     }}>
-                        Sign Up
+                        <Text>
+                            Sign Up
+                        </Text>
                     </BlueButton>
                 
-                    <BlueButton 
-                    onPress = {() => {alert('Welcome')}}>
-                        Login
+                    <BlueButton onPress = {() => {alert('Welcome')}}>
+                        <Text>
+                            Login
+                        </Text>
                     </BlueButton>
                 </View>
-                {
-                    signUpSuccessful ? 
-                    (<Text style = {styles.response}>Sign Up Successful!</Text>) : 
-                    (<Text style = {styles.response}>Invalid Username or Password</Text>)
-                }
+
+
                 <Image source = 
                 {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
-                
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
         );
     }
 }
