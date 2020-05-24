@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView} from 'react-native';
 import BlueButton from './BlueButton.js';
-import firebase from './firebaseDb.js';
+//import firebaseDb from './firebaseDb.js';
 
 export default class SignUp extends Component {
     state = {
@@ -10,7 +10,7 @@ export default class SignUp extends Component {
         signUpSuccessful: false
     }
 
-    handleCreateUser = () => firebaseDb
+    /*handleCreateUser = () => firebaseDb
         .firestore()
         .collection('users')
         .add({
@@ -24,7 +24,7 @@ export default class SignUp extends Component {
                 signUpSuccessful: true
             })
         )
-        .catch((err) => console.error(err))
+        .catch((err) => console.error(err))*/
 
     UpdateUsername = (NewUserName) => {
         this.setState({UserName: NewUserName});
@@ -37,27 +37,25 @@ export default class SignUp extends Component {
     render() {
         const {Username, Password, signUpSuccessful} = this.state
         return (
-            <KeyboardAvoidingView behavior = 'padding' style = {styles.container}>
+            <KeyboardAvoidingView behavior = 'padding' style = {styles.container}>  
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
                     style = {styles.logo}/>
                 <Text style = {styles.text}>
-                    HydroHomie
+                    HYDROHOMIE
                 </Text>
                 <Text style = {styles.subtext}>
-                    Your water drinking companion
+                    YOUR WATER DRINKING COMPANION
                 </Text>
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Username"
-                    onChangeText = {this.UpdateUsername}
-                    //maxLength = {20}
+                    onChangeText = {(text) => this.setState({Username:text})}
                     value = {Username}
                 />
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Password"
                     onChangeText = {this.UpdatePassword}
-                    maxLength = {20}
                     value = {Password}
                 />
                 <View style = {styles.side}>
@@ -75,11 +73,11 @@ export default class SignUp extends Component {
                                 signUpSuccessful: false
                             })
                         }
-                        {
+                        /*{
                             signUpSuccessful ?
                             (<Text style = {styles.response}>Sign Up Successful!</Text>) :
                             (<Text style = {styles.response}>Invalid Username or Password</Text>)
-                        }
+                        }*/
                     }}>
                         <Text>
                             Sign Up
@@ -92,12 +90,17 @@ export default class SignUp extends Component {
                         </Text>
                     </BlueButton>
                 </View>
+                {
+                    signUpSuccessful ?
+                    (<Text style = {styles.response}>Sign Up Successful!</Text>) : null
+                    //(<Text style = {styles.response}>Invalid Username or Password</Text>)
+                }
 
 
                 <Image source = 
                 {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
-                </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
        textAlign: 'center'
     },
     logo: {
-        marginTop: 120,
+        marginTop: 80,
         width: 200,
         height: 200,
         resizeMode: 'contain'
@@ -130,29 +133,33 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     response: {
-        marginTop: 10,
+        padding: 20,
+        marginTop: 65,
+        //marginBottom: 10,
         fontSize: 12,
         color: 'green'
     },
      waves: {
-        marginTop: 80,
+        marginTop: 60,
         width: Dimensions.get('window').width,
-        height: 400
+        height: 350
      },
      text: {
-        marginTop: 20,
-        marginBottom: 10,
-        fontSize: 30,
+        marginTop: 1,
+        paddingBottom: 20,
+        marginBottom: 1,
+        fontSize: 20,
         fontWeight: 'bold',
         width: 300,
         textAlign: 'center',
-        //fontFamily: 'monospace'
+        fontFamily: 'Optima'
      },
      subtext: {
-        marginBottom: 20,
-        fontSize: 15,
+        marginBottom: 2,
+        padding: 15,
+        fontSize: 12,
         width: 300,
         textAlign: 'center',
-        //fontFamily: 'monospace'
+        fontFamily: 'Optima'
      },
 })
