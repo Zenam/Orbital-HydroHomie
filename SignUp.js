@@ -10,16 +10,21 @@ export default class SignUp extends Component {
         signUpSuccessful: false
     }
 
-    handleCreateUser = () => firebasDb.js.firestore()
+    handleCreateUser = () => firebasDb
+        .firestore()
         .collection('users')
         .add({
             username: this.state.Username,
             password: this.state.Password
-        }).then(() => this.setState({
-            UserName: '',
-            Password: '',
-            signUpSuccessful: true
-        })).catch(err => console.error(err))
+        })
+        .then(() =>
+            this.setState({
+                UserName: '',
+                Password: '',
+                signUpSuccessful: true
+            })
+        )
+        .catch((err) => console.error(err))
 
     UpdateUsername = (NewUserName) => {
         this.setState({UserName: NewUserName});
