@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import BlueButton from './BlueButton.js';
 import firebaseDb from './firebaseDb.js';
 
@@ -61,7 +61,8 @@ export default class SignUp extends Component {
                 <View style = {styles.side}>
                     <BlueButton onPress = {() => {
                         if (Username.length > 0 && Password.length > 0) {
-                            this.handleCreateUser()
+                            var usernameIsUnique = true;
+                            var usernameData = new Array(firebaseDb.DataSnapshot().once().child('username'));
                         } else {
                             this.setState({
                                 Username: '',
@@ -84,10 +85,7 @@ export default class SignUp extends Component {
                 {
                     signUpSuccessful ?
                     (<Text style = {styles.response}>Sign Up Successful!</Text>) : null
-                    //(<Text style = {styles.response}>Invalid Username or Password</Text>)
                 }
-
-
                 <Image source = 
                     {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
@@ -99,24 +97,26 @@ export default class SignUp extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        paddingVertical: 10,
+        height: Math.round(Dimensions.get('window').height),
+        width: Math.round(Dimensions.get('window').width),
         flexDirection: 'column',
+        alignItems: 'center',
+        paddingVertical: Math.round(Dimensions.get('window').height*0.01)
     },
     textInput: {
         color: 'black',
-        marginTop: 15,
-        height: 40,
-        width: 250,
+        marginTop: Math.round(Dimensions.get('window').height*0.015),
+        height: Math.round(Dimensions.get('window').height*0.04),
+        width: Math.round(Dimensions.get('window').width*0.55),
         borderColor: 'skyblue',
         borderWidth: 1,
         borderRadius: 8,
         textAlign: 'center'
     },
     logo: {
-        marginTop: 80,
-        width: 200,
-        height: 200,
+        marginTop: Math.round(Dimensions.get('window').height*0.085),
+        width: Math.round(Dimensions.get('window').width*0.5),
+        height: Math.round(Dimensions.get('window').height*0.25),
         resizeMode: 'contain'
     },
     side: {
@@ -124,31 +124,31 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     response: {
-        padding: 20,
-        marginTop: 65,
+        padding: Math.round(Dimensions.get('window').height*0.02),
+        marginTop: Math.round(Dimensions.get('window').height*0.065),
         //marginBottom: 10,
         fontSize: 12,
         color: 'green'
     },
     waves: {
-        marginTop: 60,
+        marginTop: Math.round(Dimensions.get('window').height*0.06),
         width: Dimensions.get('window').width,
-        height: 350
+        height: Math.round(Dimensions.get('window').height*0.4)
     },
     text: {
         marginTop: 1,
         marginBottom: 1,
         fontSize: 20,
         fontWeight: 'bold',
-        width: 300,
+        width: Math.round(Dimensions.get('window').width),
         textAlign: 'center',
         //fontFamily: 'Optima'
     },
     subtext: {
         marginBottom: 2,
-        padding: 15,
+        padding: Math.round(Dimensions.get('window').height*0.015),
         fontSize: 12,
-        width: 300,
+        width: Math.round(Dimensions.get('window').width),
         textAlign: 'center',
         //fontFamily: 'Optima'
     },
