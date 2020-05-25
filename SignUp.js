@@ -62,13 +62,24 @@ export default class SignUp extends Component {
                     <BlueButton onPress = {() => {
                         if (Username.length > 0 && Password.length > 0) {
                             var usernameIsUnique = true;
-                            var usernameData = new Array(firebaseDb.DataSnapshot().once().child('username'));
-                        } else {
-                            this.setState({
-                                Username: '',
-                                Password: '',
-                                signUpSuccessful: false
-                            })
+                            var database = firebaseDb.database().ref('users');
+                            database.orderByChild('username')
+                                .equalTo(Username)
+                                .on('child_added', (snapshot) => {
+                                    if (snapshot.exists()) {
+                                        usernameIsUnique = false;
+                                    }
+                                })
+
+                            if (usernameIsUnique) {
+                                this.handleCreateUser();
+                            } else {
+                                this.setState({
+                                    Username: '',
+                                    Password: '',
+                                    signUpSuccessful: false
+                                })
+                            }
                         }
                     }}>
                         <Text>
