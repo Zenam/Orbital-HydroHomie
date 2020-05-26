@@ -7,7 +7,6 @@ export default class Login extends Component {
     state = {
         Username: '',
         Password: '',
-        //signUpSuccessful: false
     }
 
     UpdatePassword = (NewPassword) => {
@@ -25,7 +24,6 @@ export default class Login extends Component {
             this.setState({
                 Username: '',
                 Password: '',
-                //signUpSuccessful: true
             })
         )
         .catch((err) => console.error(err))
@@ -58,8 +56,24 @@ export default class Login extends Component {
                 <View style = {styles.side}>
                     <BlueButton onPress = {() => {
                         if (Username.length > 0 && Password.length > 0) {
-                            var usernameIsUnique = true;
-                            var database = firebaseDb.database().ref('users');
+                            //var usernameIsUnique = true;
+                            firebaseDb.firestore().collection('users')
+                            .where('username', '==', Username)
+                            .get()
+                            .then(snapshot => {
+                                var users = [];
+                                snapshot.forEach(doc => {
+                                    users.push(doc.data());
+                                })
+                                console.log(users)
+                                if (users.length) {
+                                    alert('Username already exists')
+                                } else {
+                                    this.handleCreateUser();
+                                    alert('Sign Up Successful!')
+                                }
+                            })
+                            /*var database = firebaseDb.database().ref('users');
                             database.orderByChild('username')
                                 .equalTo(Username)
                                 .on('child_added', (snapshot) => {
@@ -68,18 +82,16 @@ export default class Login extends Component {
                                         alert('User already exists!')
                                     }
                                 })
-
                             if (usernameIsUnique) {
                                 this.handleCreateUser();
                                 alert('Sign Up Successful!')
-                            } 
+                            } */
                         } else {
                             this.setState({
                                 Username: '',
                                 Password: '',
-                                //signUpSuccessful: false
                             })
-                            alert('Invalid Username or Password!')
+                            alert('Invalid Username or Password')
                             }
                     }}>
                         <Text>
@@ -88,11 +100,24 @@ export default class Login extends Component {
                     </BlueButton>
                 
                     <BlueButton onPress = {() => {
-                        var data = firebaseDb.firestore().collection('users')
-                        .get({username: Username, password: Password}).catch(err => alert('Incorrect Username or Password'))
-                        if (data) {
-                            navigation.navigate('Home Page')}
-                        }}>
+                        firebaseDb.firestore().collection('users')
+                        .where('username', '==', Username)
+                        .where('password', '==', Password)
+                        .get()
+                        .then( snapshot => {
+                            var users = [];
+                            snapshot.forEach(doc => {
+                                users.push(doc.data());
+                            })
+                            console.log(users)
+                            if (users.length) {
+                                navigation.navigate('Home Page')
+                            } else {
+                                alert('Incorrect Username or Password')
+                            }
+                        })
+                        .catch(err => console.error(err))
+                    }} >
                         <Text>
                             Login
                         </Text>
