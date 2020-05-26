@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, StatusBar, SafeAreaView, Dimensions } fr
 import Login from './Login.js';
 import HomePage from './HomePage.js'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { createStackNavigator, HeaderTitle, HeaderBackButton } from '@react-navigation/stack';
 import {decode, encode} from 'base-64'
 
 const Stack = createStackNavigator();
@@ -18,7 +18,7 @@ export default function App() {
       screenOptions = {{
         headerStyle: {backgroundColor: 'skyblue'},
         headerTintColor: 'white',
-        headerTitleStyle: {fontSize: 18}
+        headerTitleStyle: {fontSize: 18},
       }}>
         <Stack.Screen name = "Login" component = {Login} 
         options = {{

@@ -52,11 +52,11 @@ export default class Login extends Component {
                     placeholder = "Password"
                     onChangeText = {this.UpdatePassword}
                     value = {Password}
+                    secureTextEntry 
                 />
                 <View style = {styles.side}>
                     <BlueButton onPress = {() => {
                         if (Username.length > 0 && Password.length > 0) {
-                            //var usernameIsUnique = true;
                             firebaseDb.firestore().collection('users')
                             .where('username', '==', Username)
                             .get()
@@ -77,19 +77,6 @@ export default class Login extends Component {
                                     alert('Sign Up Successful!')
                                 }
                             })
-                            /*var database = firebaseDb.database().ref('users');
-                            database.orderByChild('username')
-                                .equalTo(Username)
-                                .on('child_added', (snapshot) => {
-                                    if (snapshot.exists()) {
-                                        usernameIsUnique = false;
-                                        alert('User already exists!')
-                                    }
-                                })
-                            if (usernameIsUnique) {
-                                this.handleCreateUser();
-                                alert('Sign Up Successful!')
-                            } */
                         } else {
                             this.setState({
                                 Username: '',
@@ -151,7 +138,8 @@ const styles = StyleSheet.create({
         width: Math.round(Dimensions.get('window').width),
         flexDirection: 'column',
         alignItems: 'center',
-        paddingVertical: Math.round(Dimensions.get('window').height*0.01)
+        paddingVertical: Math.round(Dimensions.get('window').height*0.01),
+        backgroundColor:'aliceblue'
     },
     textInput: {
         color: 'black',
