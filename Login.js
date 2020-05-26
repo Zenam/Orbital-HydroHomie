@@ -67,6 +67,10 @@ export default class Login extends Component {
                                 })
                                 console.log(users)
                                 if (users.length) {
+                                    this.setState({
+                                        Username: '',
+                                        Password: '',
+                                    })
                                     alert('Username already exists')
                                 } else {
                                     this.handleCreateUser();
@@ -111,8 +115,16 @@ export default class Login extends Component {
                             })
                             console.log(users)
                             if (users.length) {
+                                this.setState({
+                                    Username: '',
+                                    Password: '',
+                                })
                                 navigation.navigate('Home Page')
                             } else {
+                                this.setState({
+                                    Username: '',
+                                    Password: '',
+                                })
                                 alert('Incorrect Username or Password')
                             }
                         })
