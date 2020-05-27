@@ -18,7 +18,8 @@ export default class Login extends Component {
         .collection('users')
         .add({
             username: this.state.Username,
-            password: this.state.Password
+            password: this.state.Password,
+            data: { height: 0, weight: 0, age: 0, gender: '' }
         })
         .then(() =>
             this.setState({

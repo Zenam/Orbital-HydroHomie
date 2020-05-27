@@ -4,6 +4,7 @@ import BlueButton from './BlueButton.js';
 import firebaseDb from './firebaseDb.js';
 import Alerts from './Alert.js'
 import History from './History.js'
+import Settings from './Settings.js'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -30,8 +31,8 @@ export default function App() {
         //activeBackgroundColor: 'grey',
         //inactiveBackgroundColor: 'lightcyan',
         activeTintColor: 'lightsteelblue',
-        labelStyle: {fontSize: 10, paddingBottom:4},
-        tabStyle: {paddingTop:9}
+        labelStyle: {fontSize: 10, paddingBottom: 4},
+        tabStyle: {paddingTop: 9}
         //safeAreaInsets: 'right'
       }}
       screenOptions = {
@@ -47,6 +48,8 @@ export default function App() {
               }
               else if (route.name === 'History') {
                 iconName = focused ? 'ios-stats' : 'ios-stats';
+              } else if (route.name === 'Settings') {
+                iconName = focused ? 'settings-outline' : 'settings-outline';
               }
               return(<Ionicons name = {iconName} size={size} color={color}/>)}
             })
@@ -54,6 +57,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomePage} />
         <Tab.Screen name="Alerts" component={Alerts} options = {{title:'Alerts'}}/>
         <Tab.Screen name="History" component={History} />
+        <Tab.Screen name = "Settings" component = {Settings} />
       </Tab.Navigator>
     </NavigationContainer>
   );

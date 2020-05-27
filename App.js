@@ -13,22 +13,25 @@ export default function App() {
 
   if (!global.atob) { global.atob = decode }
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login"
-      screenOptions = {{
-        headerStyle: {backgroundColor: 'skyblue'},
-        headerTintColor: 'white',
-        headerTitleStyle: {fontSize: 18},
-      }}>
-        <Stack.Screen name = "Login" component = {Login} 
-        options = {{
-          title: 'Login',
-        }} />
-        <Stack.Screen name="Home Page" component={HomePage}
-        options = {{
-          title: 'Home',
-        }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login"
+              screenOptions = {{
+                  headerStyle: {backgroundColor: 'skyblue'},
+                  headerTintColor: 'white',
+                  headerTitleStyle: {fontSize: 18},
+              }}
+          >
+          <Stack.Screen name = "Login" component = {Login}
+              options = {{
+                  title: 'Login',
+              }}
+          />
+          <Stack.Screen name = "Home Page" component={HomePage}
+              options = {{
+                  title: 'Home',
+              }}
+          />
+          </Stack.Navigator>
+      </NavigationContainer>
   );
 }
