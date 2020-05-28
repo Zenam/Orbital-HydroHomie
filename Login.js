@@ -141,8 +141,8 @@ export default class Login extends Component {
 
                     </BlueButton>
 
-/*
-                    <BlueButton onPress = {() => {
+
+                    <BlueButton /*onPress = {() => {
                         firebase.firestore()
                             .collection('users')
                             .where('username', '==', Username)
@@ -169,12 +169,12 @@ export default class Login extends Component {
                                 }
                             })
                             .catch(err => console.error(err))
-                    }} >
+                    }} */>
                         <Text>
                             Login
                         </Text>
                     </BlueButton>
-*/
+
                 </View>
 
                 <Image source = 
