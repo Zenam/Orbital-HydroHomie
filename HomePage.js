@@ -1,60 +1,103 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, Alert, ImageBackground } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import firebaseDb from './firebaseDb.js';
-import Alerts from './Alert.js'
-import History from './History.js'
+import Alerts from './Alert.js';
+import History from './History.js';
+import Settings from './Settings.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NumericInput from 'react-native-numeric-input';
+import ProgressCircle from 'react-native-progress-circle';
 
 class HomePage extends Component {
     state = {
-        amount: 0,
+        drinkAmount: 0,
         toDrink: 2000,
-        start: 2000
+        start: 2000,
+        totalDrank: 0
     }
 
     render() {
-        const {amount, toDrink, start} = this.state
+        const {drinkAmount, toDrink, totalDrank, start} = this.state
         return (
             <KeyboardAwareScrollView 
             resetScrollToCoords={{ x: 0, y: 0 }}
             contentContainerStyle={styles.container}
             scrollEnabled={false}>
+                <ImageBackground 
+                source = {{uri:'https://r1.ilikewallpaper.net/iphone-8-wallpapers/download/25537/Abstract-Crystal-Lake-Blue-Ice-Pattern-Background-iphone-8-wallpaper-ilikewallpaper_com.jpg'}}
+                imageStyle = {styles.background}
+                style = {{width:Dimensions.get('window').width, height: Dimensions.get('window').height}}
+                >
                 <View style = {styles.target}>
-                    <Text style = {styles.header}>Amount to Drink:</Text>
-                    <Text style = {styles.subheader}> {toDrink} </Text>
+                    <Text style = {styles.header1}>Daily Target:</Text>
+                    <Text style = {styles.subheader}> {toDrink} ml</Text>
+                    <Text style = {styles.header2}>Amount Drank:</Text>
+                    <Text style = {styles.subheader}>{totalDrank} ml</Text>
                 </View>
-                <NumericInput
-                type = 'plus-minus'
-                onChange = {input => this.setState({amount: input})}
-                step ={10}
-                value = {amount}
-                minValue = {0}
-                maxValue = {toDrink}
-                totalHeight = {35}
-                totalWidth = {180}
-                rounded = {true}
-                rightButtonBackgroundColor = 'steelblue'
-                leftButtonBackgroundColor = 'lightsteelblue'
-                iconStyle = {{color:'white'}}
-                />
+                <View style = {styles.ring}>
+                    <ProgressCircle 
+                    percent = {((totalDrank/start)*100).toFixed(2)}
+                    radius = {140}
+                    borderWidth = {15}
+                    color = {'steelblue'}
+                    shadowColor = {'gainsboro'}
+                    //bgColor = {'whitesmoke'}
+                    containerStyle = {{paddingLeft: 12}}>
+                        <Text style = {styles.ringText}>{((totalDrank/start)*100).toFixed(2)}%</Text>
+                        <Text style = {styles.ringText}>COMPLETED</Text>
+                    </ProgressCircle>
+                </View>
+                <View style = {styles.number}>
+                    <NumericInput
+                    type = 'plus-minus'
+                    onChange = {input => this.setState({drinkAmount: input})}
+                    step ={50}
+                    value = {drinkAmount}
+                    minValue = {0}
+                    totalHeight = {35}
+                    totalWidth = {180}
+                    rounded = {true}
+                    rightButtonBackgroundColor = 'steelblue'
+                    leftButtonBackgroundColor = 'lightsteelblue'
+                    borderColor = 'white'
+                    iconStyle = {{color:'white'}}
+                    />
+                </View>
                 <View style = {styles.buttons}>
                     <TouchableOpacity style = {styles.drinkButton}
                     onPress = { () => {
-                        this.setState({toDrink: toDrink - amount, amount : 0})
-                        console.log(amount)
+                        var left = toDrink - drinkAmount
+                        if (left < 0) {
+                            this.setState({toDrink: 0, drinkAmount : 0, totalDrank: totalDrank + drinkAmount})
+                        } else {
+                            this.setState({toDrink: left, drinkAmount : 0, totalDrank: totalDrank + drinkAmount})
+                        }
+                        console.log(drinkAmount)
                     }}>
                         <Text style = {styles.text}>Drink</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.reset}
-                    onPress = {() => {this.setState({toDrink: start})}}>
-                        <Ionicons name = {'ios-refresh'} size = {60} color = {'skyblue'}/>
+                    onPress = {() => {Alert.alert(
+                        "Warning",
+                        "Confirm restart daily goal?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => {this.setState({toDrink: start, totalDrank: 0})}}
+                        ],
+                        { cancelable: false }
+                      )}}>
+                        <Ionicons name = {'ios-refresh'} size = {60} color = {'steelblue'}/>
                     </TouchableOpacity>
-                </View> 
+                </View>
+                </ImageBackground> 
             </KeyboardAwareScrollView>
         )
     }
@@ -67,28 +110,24 @@ export default function App() {
     <NavigationContainer independent = {true}> 
       <Tab.Navigator initialRouteName="Home"
       tabBarOptions = {{
-        //activeBackgroundColor: 'grey',
-        //inactiveBackgroundColor: 'lightcyan',
         inactiveTintColor:'white',
-        activeTintColor: 'steelblue',
+        activeTintColor: 'skyblue',
         labelStyle: {fontSize: 10, paddingBottom:4},
         tabStyle: {paddingTop:9},
-        style:{backgroundColor:'skyblue'}
-        //safeAreaInsets: 'right'
+        style:{backgroundColor:'steelblue'}
       }}
       screenOptions = {
           ({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
               var iconName; 
               if (route.name === 'Home') {
-                iconName = focused
-                  ? 'ios-home'
-                  : 'ios-home';
+                iconName = focused ? 'ios-home': 'ios-home';
               } else if (route.name === 'Alerts') {
                 iconName = focused ? 'ios-alarm' : 'ios-alarm';
-              }
-              else if (route.name === 'History') {
+              } else if (route.name === 'History') {
                 iconName = focused ? 'ios-stats' : 'ios-stats';
+              } else if (route.name === 'Settings') {
+                  iconName = focused ? 'ios-settings' : 'ios-settings';
               }
               return(<Ionicons name = {iconName} size={size} color={color}/>)}
             })
@@ -96,6 +135,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomePage} />
         <Tab.Screen name="Alerts" component={Alerts} options = {{title:'Alerts'}}/>
         <Tab.Screen name="History" component={History} />
+        <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -104,25 +144,36 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {  
         flex: 1,
-        height: Math.round(Dimensions.get('window').height),
-        width: Math.round(Dimensions.get('window').width),
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: Math.round(Dimensions.get('window').height*0.01),
-        //backgroundColor: 'skyblue'
+    },
+    background: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        opacity: 0.20
     },
     target: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 500
+        padding: 80,
     },
-    header: {
-        marginTop: 70,
+    header1: {
+        marginTop: 120,
         paddingBottom:30,
-        fontSize: 30,
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'steelblue'
+    },
+    header2: {
+        marginTop: 10,
+        fontSize: 25,
         fontWeight: 'bold',
         color: 'steelblue'
     },
@@ -132,10 +183,13 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingHorizontal: 30,
         paddingVertical: 3,
-        marginTop: 15,
+        marginTop: 5,
         backgroundColor: 'steelblue',
         borderRadius: 12,
         overflow: 'hidden'
+    },
+    number: {
+        paddingHorizontal:113
     },
     drinkButton: {
         padding: 17,
@@ -144,17 +198,28 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 25,
         borderRadius: 25,
-        backgroundColor: 'skyblue',
+        backgroundColor: 'steelblue',
         overflow: 'hidden',
         paddingHorizontal: 65,
         paddingVertical: 10,
         marginBottom: 30,
         marginLeft: 58
     },
+    ring: {
+        paddingTop: 50,
+        paddingBottom: 70,
+        paddingHorizontal: 67
+    },
+    ringText: {
+        fontSize: 20,
+        color: 'steelblue',
+        fontWeight: 'bold',
+    },
     buttons: {
         flex: 2,
         flexDirection: 'row',
         alignItems: 'flex-start',
+        marginLeft: 35
     },
     reset: {
         marginTop: 10,

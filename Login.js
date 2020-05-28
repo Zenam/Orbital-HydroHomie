@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import BlueButton from './BlueButton.js';
 import firebaseDb from './firebaseDb.js';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Login extends Component {
     state = {
@@ -18,8 +19,7 @@ export default class Login extends Component {
         .collection('users')
         .add({
             username: this.state.Username,
-            password: this.state.Password,
-            data: { height: 0, weight: 0, age: 0, gender: '' }
+            password: this.state.Password
         })
         .then(() =>
             this.setState({
@@ -30,7 +30,7 @@ export default class Login extends Component {
         .catch((err) => console.error(err))
 
     render() {
-        const {Username, Password, signUpSuccessful} = this.state;
+        const {Username, Password} = this.state;
         const { navigation } = this.props;
         return (
             <SafeAreaView style = {styles.container}>
@@ -42,12 +42,13 @@ export default class Login extends Component {
                 <Text style = {styles.subtext}>
                     YOUR DRINKING COMPANION
                 </Text>
-                <TextInput
+                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Username"
                     onChangeText = {(text) => this.setState({Username:text})}
                     value = {Username}
                 />
+
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Password"
@@ -152,6 +153,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         textAlign: 'center'
     },
+    /*input: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingBottom: 50
+    },*/
     logo: {
         marginTop: Math.round(Dimensions.get('window').height*0.075),
         width: Math.round(Dimensions.get('window').width*0.5),
