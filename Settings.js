@@ -75,11 +75,11 @@ export default class Settings extends Component {
                                 age: ''
                             })
                             alert('Please enter a valid value for age.')
-                        /*} else if (gender !== "male" || gender !== "Male" || gender !== "female" || gender !== "Female") {
+                        } else if ( !(gender == "male" || gender == "Male" || gender == "female" || gender == "Female") ) {
                             this.setState({
                                 gender: ''
                             })
-                            alert('Please enter gender as Male or Female')*/
+                            alert('Please enter gender as Male or Female')
                         } else {
                             var db = firebase.database();
                             //var currentUser = firebase.auth().currentUser;
@@ -88,6 +88,9 @@ export default class Settings extends Component {
                                     // User is signed in.
                                     db.ref('-users/' + user.uid)
                                         .update({ height: {height} })
+                                        .update({ weight: {weight} })
+                                        .update({ age: {age} })
+                                        .update({ gender: {gender} })
                                 } else {
                                     // User is not signed in
                                     alert('Please sign in before entering your data.')
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     header: {
-        Color: 'black',
+        color: 'black',
         fontSize: 30
     },
     buttons: {
