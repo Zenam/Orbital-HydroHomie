@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import BlueButton from './BlueButton.js';
+import firebase from './firebaseDb.js'
 
-export default class Alerts extends Component {
+export default class Settings extends Component {
     state = {
         height: '',
         weight: '',
         age: '',
         gender: ''
     }
+
+    updateHeight = (newHeight) => {
+            this.setState({height: newHeight});
+        }
+
+    updateWeight = (newWeight) => {
+                this.setState({weight: newWeight});
+        }
+
+    updateAge = (newAge) => {
+                this.setState({age: newAge});
+        }
+
+    updateGender = (newGender) => {
+                this.setState({gender: newGender});
+        }
 
     render() {
         const {height, weight, age, gender} = this.state;
@@ -20,25 +37,25 @@ export default class Alerts extends Component {
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Your height in centimetres"
-                    onChangeText = {(text) => this.setState({input:text})}
+                    onChangeText = {this.updateHeight}
                     value = {height}
                 />
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Your weight in kilograms"
-                    onChangeText = {(text) => this.setState({input:text})}
+                    onChangeText = {this.updateWeight}
                     value = {weight}
                 />
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Your age in years"
-                    onChangeText = {(text) => this.setState({input:text})}
+                    onChangeText = {this.updateAge}
                     value = {age}
                 />
                 <TextInput
                     style = {styles.textInput}
                     placeholder = "Your gender"
-                    onChangeText = {(text) => this.setState({input:text})}
+                    onChangeText = {this.updateGender}
                     value = {gender}
                 />
                 <View style = {styles.buttons}>
@@ -58,15 +75,24 @@ export default class Alerts extends Component {
                                 age: ''
                             })
                             alert('Please enter a valid value for age.')
-                        } else if (gender !== "male" || gender !== "Male" || gender !== "female" || gender !== "Female") {
+                        /*} else if (gender !== "male" || gender !== "Male" || gender !== "female" || gender !== "Female") {
                             this.setState({
                                 gender: ''
                             })
-                            alert('Please enter gender as Male or Female')
+                            alert('Please enter gender as Male or Female')*/
                         } else {
-
-                            //code here
-
+                            var db = firebase.database();
+                            //var currentUser = firebase.auth().currentUser;
+                            firebase.auth().onAuthStateChanged(function(user) {
+                                if (user) {
+                                    // User is signed in.
+                                    db.ref('-users/' + user.uid)
+                                        .update({ height: {height} })
+                                } else {
+                                    // User is not signed in
+                                    alert('Please sign in before entering your data.')
+                                }
+                            });
                         }
                         }
                         }>
