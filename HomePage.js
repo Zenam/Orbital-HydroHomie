@@ -28,7 +28,7 @@ class HomePage extends Component {
             contentContainerStyle={styles.container}
             scrollEnabled={false}>
                 <ImageBackground 
-                source = {{uri:'https://r1.ilikewallpaper.net/iphone-8-wallpapers/download/25537/Abstract-Crystal-Lake-Blue-Ice-Pattern-Background-iphone-8-wallpaper-ilikewallpaper_com.jpg'}}
+                source = {{uri:'https://images.wallpaperscraft.com/image/under_water_depth_bottom_139714_800x1420.jpg'}}
                 imageStyle = {styles.background}
                 style = {{width:Dimensions.get('window').width, height: Dimensions.get('window').height}}
                 >
@@ -43,7 +43,7 @@ class HomePage extends Component {
                     percent = {((totalDrank/start)*100).toFixed(2)}
                     radius = {140}
                     borderWidth = {15}
-                    color = {'steelblue'}
+                    color = {'skyblue'}
                     shadowColor = {'gainsboro'}
                     //bgColor = {'whitesmoke'}
                     containerStyle = {{paddingLeft: 12}}>
@@ -63,7 +63,7 @@ class HomePage extends Component {
                     rounded = {true}
                     rightButtonBackgroundColor = 'steelblue'
                     leftButtonBackgroundColor = 'lightsteelblue'
-                    borderColor = 'white'
+                    borderColor= 'white'
                     iconStyle = {{color:'white'}}
                     />
                 </View>
@@ -111,10 +111,10 @@ export default function App() {
       <Tab.Navigator initialRouteName="Home"
       tabBarOptions = {{
         inactiveTintColor:'white',
-        activeTintColor: 'skyblue',
+        activeTintColor: 'steelblue',
         labelStyle: {fontSize: 10, paddingBottom:4},
         tabStyle: {paddingTop:9},
-        style:{backgroundColor:'steelblue'}
+        style:{backgroundColor:'skyblue'}
       }}
       screenOptions = {
           ({ route }) => ({
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        opacity: 0.20
+        opacity: 0.2
     },
     target: {
         flex: 1,
@@ -168,13 +168,13 @@ const styles = StyleSheet.create({
         marginTop: 120,
         paddingBottom:30,
         fontSize: 25,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         color: 'steelblue'
     },
     header2: {
         marginTop: 10,
         fontSize: 25,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         color: 'steelblue'
     },
     subheader: {
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingVertical: 3,
         marginTop: 5,
-        backgroundColor: 'steelblue',
+        backgroundColor: 'skyblue',
         borderRadius: 12,
         overflow: 'hidden'
     },
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 25,
         borderRadius: 25,
-        backgroundColor: 'steelblue',
+        backgroundColor: 'skyblue',
         overflow: 'hidden',
         paddingHorizontal: 65,
         paddingVertical: 10,

@@ -28,7 +28,7 @@ export default function App() {
         <Stack.Screen name="Home Page" component={HomePage}
         options = {{
           title: 'Home',
-          headerStyle: {backgroundColor: 'steelblue'}
+          headerStyle: {backgroundColor: 'skyblue'}
         }} />
       </Stack.Navigator>
     </NavigationContainer>
