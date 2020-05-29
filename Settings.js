@@ -81,22 +81,11 @@ export default class Settings extends Component {
                             })
                             alert('Please enter gender as Male or Female')
                         } else {
-                            var db = firebase.database();
-                            //var currentUser = firebase.auth().currentUser;
-                            firebase.auth().onAuthStateChanged(function(user) {
-                                if (user) {
-                                    // User is signed in.
-                                    db.ref('-users/' + user.uid)
-                                        .update({ height: {height} })
-                                        .update({ weight: {weight} })
-                                        .update({ age: {age} })
-                                        .update({ gender: {gender} })
-                                } else {
-                                    // User is not signed in
-                                    alert('Please sign in before entering your data.')
-                                }
-                            });
-                        }
+                            var currentUser = firebase.auth().currentUser;
+                                firebase.database()
+                                    .ref('/users/'+currentUser.uid)
+                                    .set(currentUser);
+                            }
                         }
                         }>
                         <Text>
@@ -132,7 +121,8 @@ const styles = StyleSheet.create({
     },
     header: {
         color: 'black',
-        fontSize: 30
+        fontSize: 25,
+        tetAlign: 'center'
     },
     buttons: {
         flex: 1,

@@ -10,30 +10,36 @@ export default class Login extends Component {
         this.state = { email: '', password: '', error: ''};
     }
 
-    onButtonPress() {
+    handleSignUp() {
+        this.setState({ error: '', loading: true })
+        const { email, password } = this.state;
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(this.onLoginSuccess.bind(this))
+            .catch((error) => {
+                let errorCode = error.code
+                let errorMessage = error.message;
+                if (errorCode == 'auth/weak-password') {
+                    this.onLoginFailure.bind(this)('Weak password!')
+                } else {
+                    this.onLoginFailure.bind(this)(errorMessage)
+                }
+            });
+    }
+
+    handleSignIn() {
         this.setState({ error: '', loading: true })
         const { email, password } = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(this.onLoginSuccess.bind(this))
-            .catch(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(this.onLoginSuccess.bind(this))
-                    .catch((error) => {
-                        let errorCode = error.code
-                        let errorMessage = error.message;
-                        if (errorCode == 'auth/weak-password') {
-                            this.onLoginFailure.bind(this)('Weak password!')
-                        } else {
-                            this.onLoginFailure.bind(this)(errorMessage)
-                        }
-                    });
-            });
+            .catch(error => console.log(error));
     }
 
     onLoginSuccess() {
+        const { navigation } = this.props;
         this.setState({
             email: '', password: '', error: '', loading: false
         })
+        navigation.navigate('Home Page')
     }
 
     onLoginFailure(errorMessage) {
@@ -67,8 +73,8 @@ export default class Login extends Component {
         .catch((err) => console.error(err))
 */
     render() {
-        // const {Username, Password} = this.state;
-        // const { navigation } = this.props;
+        const {email, password} = this.state;
+        const { navigation } = this.props;
         return (
             <SafeAreaView style = {styles.container}>
 
@@ -76,11 +82,11 @@ export default class Login extends Component {
                     style = {styles.logo}/>
 
                 <Text style = {styles.text}>
-                    'HYDROHOMIE'
+                    HYDROHOMIE
                 </Text>
 
                 <Text style = {styles.subtext}>
-                    'YOUR DRINKING COMPANION'
+                    YOUR DRINKING COMPANION
                 </Text>
 
                 <TextInput label = 'Email'
@@ -101,8 +107,8 @@ export default class Login extends Component {
                 <View style = {styles.side}>
 
                     <BlueButton onPress = {() => {
-                        if (Username.length > 0 && Password.length > 0) {
-                            this.onButtonPress();
+                        if (email.length > 0 && password.length > 0) {
+                            this.handleSignUp();
                             /*
                             firebase.firestore()
                                 .collection('users')
@@ -131,18 +137,21 @@ export default class Login extends Component {
                                 email: '',
                                 password: ''
                             });
-                            alert('Invalid Username or Password');
+                            alert('Invalid Email and/or Password');
                         }
                     }}>
 
                         <Text>
-                            'Sign Up/Login'
+                            Sign Up
                         </Text>
 
                     </BlueButton>
 
 
-                    <BlueButton /*onPress = {() => {
+                    <BlueButton onPress = {() => {
+                        if(email.length > 0 && password.length > 0) {
+                            this.handleSignIn();
+                        /*
                         firebase.firestore()
                             .collection('users')
                             .where('username', '==', Username)
@@ -169,7 +178,15 @@ export default class Login extends Component {
                                 }
                             })
                             .catch(err => console.error(err))
-                    }} */>
+                        */
+                        } else {
+                            this.setState({
+                                email: '',
+                                password: ''
+                            });
+                            alert('Invalid Email and/or Password')
+                        }
+                    }}>
                         <Text>
                             Login
                         </Text>
