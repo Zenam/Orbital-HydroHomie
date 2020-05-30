@@ -21,8 +21,11 @@ export default class Login extends Component {
             .catch((error) => {
                 let errorCode = error.code
                 let errorMessage = error.message;
-                if (errorCode == 'auth/weak-password') {
+                if (errorCode === 'auth/weak-password') {
                     this.onLoginFailure.bind(this)('Weak password!')
+                    alert(errorMessage)
+                } else if (errorCode === 'auth/email-already-in-use') {
+                    alert(errorMessage)
                 } else {
                     this.onLoginFailure.bind(this)(errorMessage)
                 }
@@ -241,22 +244,6 @@ const styles = StyleSheet.create({
         height: Math.round(Dimensions.get('window').height*0.25),
         resizeMode: 'contain'
     },
-    /*inputIcon: {
-        flex:1,
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        height: Math.round(Dimensions.get('window').height*0.04),
-        width: Math.round(Dimensions.get('window').width*0.55),
-        justifyContent: 'space-between',
-        marginBottom: 30,
-        MarginTop: Math.round(Dimensions.get('window').height*0.015),
-        height: Math.round(Dimensions.get('window').height*0.04),
-        width: Math.round(Dimensions.get('window').width*0.55),
-        borderColor: 'skyblue',
-        borderWidth: 1,
-        borderRadius: 8,
-        textAlign: 'center'
-    },*/
     side: {
         flex: 1,
         flexDirection: 'row',
