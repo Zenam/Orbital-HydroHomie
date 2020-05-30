@@ -17,6 +17,7 @@ export default class Login extends Component {
             .then(cred => 
                 {firebase.firestore().collection('users').doc(cred.user.uid)
                          .set({height: 0})})
+            .then(this.setState({firstTime:true}))
             .then(this.onLoginSuccess.bind(this))
             .catch((error) => {
                 let errorCode = error.code
@@ -118,7 +119,6 @@ export default class Login extends Component {
 
                     <BlueButton onPress = {() => {
                         if (email.length > 0 && password.length > 0) {
-                            this.setState({firstTime: true})
                             this.handleSignUp();
                             /*
                             firebase.firestore()
