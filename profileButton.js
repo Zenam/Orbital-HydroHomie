@@ -20,7 +20,7 @@ const ProfileButton = props => {
                 </Drawer.Navigator>
             </NavigationContainer>
         }}>
-            <Ionicons name = 'ios-person' size = {30} color = 'white'/>
+            <Ionicons name = 'ios-contact' size = {30} color = 'white'/>
         </TouchableOpacity> 
     )
 }
