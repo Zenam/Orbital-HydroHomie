@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, Alert, ImageBackground } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import firebaseDb from './firebaseDb.js';
+import firebase from './firebaseDb.js';
 import Alerts from './Alert.js';
 import History from './History.js';
 import Settings from './Settings.js';
@@ -11,6 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NumericInput from 'react-native-numeric-input';
 import ProgressCircle from 'react-native-progress-circle';
+import { auth, firestore } from 'firebase';
 
 class HomePage extends Component {
     state = {
@@ -22,7 +23,17 @@ class HomePage extends Component {
     }
 
     render() {
+        var user = firebase.auth().currentUser.uid
+        //console.log(user)
+        firebase.firestore().collection('users').doc(user).get()
+                            .then( DocumentSnapshot =>{
+                                   var userData = DocumentSnapshot.data()
+                                   //this.setState({toDrink: userData.height + 1000})
+                                   //console.log(userData)
+                            })
+                            .catch(err => console.log(err))
         const {drinkAmount, toDrink, totalDrank, start, lastDrank} = this.state
+        //console.log(toDrink)
         var per = (totalDrank/start)*100
         return (
             <KeyboardAwareScrollView 
@@ -97,7 +108,7 @@ class HomePage extends Component {
                         { cancelable: false }
                       )
                     }}>
-                        <Ionicons name = {'ios-undo'} size = {63} color = {'steelblue'}/>
+                        <Ionicons name = {'ios-undo'} size = {65} color = {'steelblue'}/>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.drinkButton}
                     onPress = { () => {
@@ -109,7 +120,6 @@ class HomePage extends Component {
                             this.setState({toDrink: left, drinkAmount : 0, totalDrank: totalDrank + drinkAmount})
                             console.log(lastDrank)
                         }
-                        //console.log(drinkAmount)
                     }}>
                         <Text style = {styles.text}>Drink</Text>
                     </TouchableOpacity>
@@ -127,7 +137,7 @@ class HomePage extends Component {
                         ],
                         { cancelable: false }
                       )}}>
-                        <Ionicons name = {'ios-refresh'} size = {58} color = {'steelblue'}/>
+                        <Ionicons name = {'md-sync'} size = {65} color = {'steelblue'} />
                     </TouchableOpacity>
                 </View>
                 </ImageBackground> 
@@ -258,11 +268,11 @@ const styles = StyleSheet.create({
     drinkButton: {
         paddingTop: 15,
         marginRight: 15,
-        marginLeft: -28
+        marginLeft: -35
     },
     reset: {
-        marginTop: 9,
-        marginLeft: 14,
-        marginRight: 38
+        marginTop: 8,
+        marginLeft: 12,
+        marginRight: 40
     }
 })
