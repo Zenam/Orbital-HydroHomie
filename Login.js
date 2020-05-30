@@ -7,13 +7,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', error: ''};
+        this.state = { email: '', password: '', error: '', firstTime: false};
     }
 
     handleSignUp() {
         this.setState({ error: '', loading: true })
         const { email, password } = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(cred => 
+                {firebase.firestore().collection('users').doc(cred.user.uid)
+                         .set({height: 0})})
             .then(this.onLoginSuccess.bind(this))
             .catch((error) => {
                 let errorCode = error.code
@@ -39,7 +42,12 @@ export default class Login extends Component {
         this.setState({
             email: '', password: '', error: '', loading: false
         })
-        navigation.navigate('Home Page')
+        if (this.state.firstTime) {
+            this.setState({firstTime:false})
+            navigation.navigate('Settings')
+        } else {
+            navigation.navigate('Home Page')
+        }
     }
 
     onLoginFailure(errorMessage) {
@@ -88,13 +96,12 @@ export default class Login extends Component {
                 <Text style = {styles.subtext}>
                     YOUR DRINKING COMPANION
                 </Text>
-
+                
                 <TextInput label = 'Email'
                     style = {styles.textInput}
                     placeholder = "user@mail.com"
                     onChangeText = {email => this.setState({ email })}
-                    value = {this.state.email}
-                />
+                    value = {this.state.email}/>
 
                 <TextInput label = 'Password'
                     style = {styles.textInput}
@@ -102,12 +109,13 @@ export default class Login extends Component {
                     onChangeText = {password => this.setState({ password })}
                     value = {this.state.password}
                     secureTextEntry = {true}
-                />
+                />                
 
                 <View style = {styles.side}>
 
                     <BlueButton onPress = {() => {
                         if (email.length > 0 && password.length > 0) {
+                            this.setState({firstTime: true})
                             this.handleSignUp();
                             /*
                             firebase.firestore()
@@ -140,7 +148,6 @@ export default class Login extends Component {
                             alert('Invalid Email and/or Password');
                         }
                     }}>
-
                         <Text>
                             Sign Up
                         </Text>
@@ -234,6 +241,22 @@ const styles = StyleSheet.create({
         height: Math.round(Dimensions.get('window').height*0.25),
         resizeMode: 'contain'
     },
+    /*inputIcon: {
+        flex:1,
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        height: Math.round(Dimensions.get('window').height*0.04),
+        width: Math.round(Dimensions.get('window').width*0.55),
+        justifyContent: 'space-between',
+        marginBottom: 30,
+        MarginTop: Math.round(Dimensions.get('window').height*0.015),
+        height: Math.round(Dimensions.get('window').height*0.04),
+        width: Math.round(Dimensions.get('window').width*0.55),
+        borderColor: 'skyblue',
+        borderWidth: 1,
+        borderRadius: 8,
+        textAlign: 'center'
+    },*/
     side: {
         flex: 1,
         flexDirection: 'row',

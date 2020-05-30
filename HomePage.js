@@ -17,11 +17,13 @@ class HomePage extends Component {
         drinkAmount: 0,
         toDrink: 2000,
         start: 2000,
-        totalDrank: 0
+        totalDrank: 0,
+        lastDrank: []
     }
 
     render() {
-        const {drinkAmount, toDrink, totalDrank, start} = this.state
+        const {drinkAmount, toDrink, totalDrank, start, lastDrank} = this.state
+        var per = (totalDrank/start)*100
         return (
             <KeyboardAwareScrollView 
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -40,23 +42,26 @@ class HomePage extends Component {
                 </View>
                 <View style = {styles.ring}>
                     <ProgressCircle 
-                    percent = {((totalDrank/start)*100).toFixed(2)}
+                    percent = {(per).toFixed(2)}
                     radius = {140}
-                    borderWidth = {15}
+                    borderWidth = {20}
                     color = {'skyblue'}
                     shadowColor = {'gainsboro'}
                     //bgColor = {'whitesmoke'}
                     containerStyle = {{paddingLeft: 12}}>
-                        <Text style = {styles.ringText}>{((totalDrank/start)*100).toFixed(2)}%</Text>
+                        <Text style = {styles.ringText}>{
+                            (per>100) ? 100.00 : per.toFixed(2)
+                        }%
+                        </Text>
                         <Text style = {styles.ringText}>COMPLETED</Text>
                     </ProgressCircle>
                 </View>
                 <View style = {styles.number}>
                     <NumericInput
                     type = 'plus-minus'
-                    onChange = {input => this.setState({drinkAmount: input})}
+                    onChange = {input => this.setState({drinkAmount:input})}
                     step ={50}
-                    value = {drinkAmount}
+                    initValue = {drinkAmount}
                     minValue = {0}
                     totalHeight = {35}
                     totalWidth = {180}
@@ -68,15 +73,43 @@ class HomePage extends Component {
                     />
                 </View>
                 <View style = {styles.buttons}>
+                    <TouchableOpacity style = {styles.undo}
+                    onPress = { () => {Alert.alert(
+                        "Undo",
+                        "Are you sure you want to undo water drank?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => 
+                          { console.log(lastDrank)
+                            if (lastDrank.length > 0) {
+                                var x = lastDrank.pop()
+                                console.log(x)
+                                this.setState({toDrink: toDrink + x,
+                                totalDrank: totalDrank - x,
+                                drinkAmount: 0})
+                                console.log(lastDrank)
+                          }}}
+                        ],
+                        { cancelable: false }
+                      )
+                    }}>
+                        <Ionicons name = {'ios-undo'} size = {63} color = {'steelblue'}/>
+                    </TouchableOpacity>
                     <TouchableOpacity style = {styles.drinkButton}
                     onPress = { () => {
                         var left = toDrink - drinkAmount
+                        lastDrank.push(drinkAmount)
                         if (left < 0) {
                             this.setState({toDrink: 0, drinkAmount : 0, totalDrank: totalDrank + drinkAmount})
                         } else {
                             this.setState({toDrink: left, drinkAmount : 0, totalDrank: totalDrank + drinkAmount})
+                            console.log(lastDrank)
                         }
-                        console.log(drinkAmount)
+                        //console.log(drinkAmount)
                     }}>
                         <Text style = {styles.text}>Drink</Text>
                     </TouchableOpacity>
@@ -90,11 +123,11 @@ class HomePage extends Component {
                             onPress: () => console.log("Cancel Pressed"),
                             style: "cancel"
                           },
-                          { text: "OK", onPress: () => {this.setState({toDrink: start, totalDrank: 0})}}
+                          { text: "OK", onPress: () => {this.setState({toDrink: start, totalDrank: 0, drinkAmount: 0, lastDrank:[]})}}
                         ],
                         { cancelable: false }
                       )}}>
-                        <Ionicons name = {'ios-refresh'} size = {60} color = {'steelblue'}/>
+                        <Ionicons name = {'ios-refresh'} size = {58} color = {'steelblue'}/>
                     </TouchableOpacity>
                 </View>
                 </ImageBackground> 
@@ -118,22 +151,22 @@ export default function App() {
       }}
       screenOptions = {
           ({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ color, size }) => {
               var iconName; 
               if (route.name === 'Home') {
-                iconName = focused ? 'ios-home': 'ios-home';
+                iconName = 'ios-home';
               } else if (route.name === 'Alerts') {
-                iconName = focused ? 'ios-alarm' : 'ios-alarm';
+                iconName = 'ios-alarm';
               } else if (route.name === 'History') {
-                iconName = focused ? 'ios-stats' : 'ios-stats';
+                iconName = 'ios-stats';
               } else if (route.name === 'Settings') {
-                  iconName = focused ? 'ios-settings' : 'ios-settings';
+                  iconName = 'ios-settings';
               }
               return(<Ionicons name = {iconName} size={size} color={color}/>)}
             })
       }>
         <Tab.Screen name="Home" component={HomePage} />
-        <Tab.Screen name="Alerts" component={Alerts} options = {{title:'Alerts'}}/>
+        <Tab.Screen name="Alerts" component={Alerts} />
         <Tab.Screen name="History" component={History} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
@@ -168,13 +201,11 @@ const styles = StyleSheet.create({
         marginTop: 120,
         paddingBottom:30,
         fontSize: 25,
-        //fontWeight: 'bold',
         color: 'steelblue'
     },
     header2: {
         marginTop: 10,
         fontSize: 25,
-        //fontWeight: 'bold',
         color: 'steelblue'
     },
     subheader: {
@@ -187,12 +218,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'skyblue',
         borderRadius: 12,
         overflow: 'hidden'
-    },
-    number: {
-        paddingHorizontal:113
-    },
-    drinkButton: {
-        padding: 17,
     },
     text: {
         color: 'white',
@@ -208,21 +233,36 @@ const styles = StyleSheet.create({
     ring: {
         paddingTop: 50,
         paddingBottom: 70,
-        paddingHorizontal: 67
+        paddingHorizontal: 70
     },
     ringText: {
         fontSize: 20,
         color: 'steelblue',
         fontWeight: 'bold',
     },
+    number: {
+        paddingHorizontal:120
+    },
     buttons: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'flex-start',
-        marginLeft: 35
+        paddingBottom: 100
+        //marginLeft: 5
+    },
+    undo: {
+        paddingLeft: 33,
+        marginTop: 7
+    },
+    drinkButton: {
+        paddingTop: 15,
+        marginRight: 15,
+        marginLeft: -28
     },
     reset: {
-        marginTop: 10,
-        marginLeft: 12
+        marginTop: 9,
+        marginLeft: 14,
+        marginRight: 38
     }
 })
