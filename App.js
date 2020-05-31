@@ -4,6 +4,7 @@ import Login from './Login.js';
 import HomePage from './HomePage.js'
 import Settings from './Settings.js'
 import ProfileButton from './profileButton.js'
+import SignUp from './SignUp.js'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderTitle, HeaderBackButton } from '@react-navigation/stack';
 import {decode, encode} from 'base-64'
@@ -49,6 +50,10 @@ export default function App() {
             headerRight: () => (<ProfileButton />)
           })
         } />
+        <Stack.Screen name = "Sign Up" component = {SignUp} 
+        options = {{
+          title: 'Sign Up',
+        }} />
         <Stack.Screen name="Settings" component={Settings}/>
       </Stack.Navigator>
     </NavigationContainer>

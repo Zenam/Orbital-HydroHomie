@@ -10,7 +10,7 @@ export default class Login extends Component {
         this.state = { email: '', password: '', error: '', loading: false, firstTime: false};
     }
 
-    handleSignUp() {
+    /*handleSignUp() {
         this.setState({ error: '', loading: true })
         const { email, password } = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -32,7 +32,7 @@ export default class Login extends Component {
                     this.onLoginFailure.bind(this)(errorMessage)
                 }
             });
-    }
+    }*/
 
     handleSignIn() {
         this.setState({ error: '', loading: true })
@@ -49,7 +49,7 @@ export default class Login extends Component {
         })
         if (this.state.firstTime) {
             this.setState({firstTime:false})
-            navigation.navigate('Settings')
+            navigation.navigate('Home Page')
         } else {
             navigation.navigate('Home Page')
         }
@@ -79,22 +79,23 @@ export default class Login extends Component {
                 
                 <TextInput label = 'Email'
                     style = {styles.textInput}
-                    placeholder = "user@mail.com"
+                    placeholder = "User@mail.com"
                     onChangeText = {email => this.setState({ email })}
-                    value = {this.state.email}/>
+                    value = {email}/>
 
                 <TextInput label = 'Password'
                     style = {styles.textInput}
                     placeholder = "password"
                     onChangeText = {password => this.setState({ password })}
-                    value = {this.state.password}
+                    value = {password}
                     secureTextEntry = {true}
                 />                
 
                 <View style = {styles.side}>
 
                     <BlueButton onPress = {() => {
-                        if (email.length > 0 && password.length > 0) {
+                        navigation.navigate('Sign Up')
+                        /*if (email.length > 0 && password.length > 0) {
                             this.handleSignUp();
                         } else {
                             this.setState({
@@ -102,12 +103,11 @@ export default class Login extends Component {
                                 password: ''
                             });
                             alert('Invalid Email and/or Password');
-                        }
+                        }*/
                     }}>
                         <Text>
                             Sign Up
                         </Text>
-
                     </BlueButton>
 
 
@@ -126,7 +126,6 @@ export default class Login extends Component {
                             Login
                         </Text>
                     </BlueButton>
-
                 </View>
 
                 <Image source = 

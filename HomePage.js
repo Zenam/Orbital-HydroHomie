@@ -25,12 +25,14 @@ class HomePage extends Component {
     render() {
         var user = firebase.auth().currentUser.uid
         //console.log(user)
-        firebase.firestore().collection('users').doc(user).get()
-                            .then( DocumentSnapshot =>{
-                                   var userData = DocumentSnapshot.data()
-                                   //this.setState({toDrink: userData.height + 1000})
-                                   //console.log(userData)
+        firebase.firestore().collection('users').doc(user)
+                            .update({
+                                height: 170
                             })
+                            /*.then( DocumentSnapshot =>{
+                                   var userData = DocumentSnapshot.data()
+                                   this.setState({toDrink: userData.height + 1000})
+                                   console.log(userData)*/
                             .catch(err => console.log(err))
         const {drinkAmount, toDrink, totalDrank, start, lastDrank} = this.state
         //console.log(toDrink)
