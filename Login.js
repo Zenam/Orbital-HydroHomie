@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import BlueButton from './BlueButton.js';
 import firebase from './firebaseDb.js';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', error: '', firstTime: false};
+        this.state = { email: '', password: '', error: '', loading: false, firstTime: false};
     }
 
     handleSignUp() {
@@ -22,6 +22,7 @@ export default class Login extends Component {
             .catch((error) => {
                 let errorCode = error.code
                 let errorMessage = error.message;
+                this.setState({loading: false})
                 if (errorCode === 'auth/weak-password') {
                     this.onLoginFailure.bind(this)('Weak password!')
                     alert(errorMessage)
@@ -58,38 +59,13 @@ export default class Login extends Component {
         this.setState({ error: errorMessage, loading: false })
     }
 
-/*
-    UpdatePassword = (NewPassword) => {
-        this.setState({Password: NewPassword});
-    }
 
-    handleCreateUser = () => firebase
-        .firestore()
-        .collection('users')
-        .add({
-            username: this.state.Username,
-            password: this.state.Password,
-            data: {
-                height: '',
-                weight: '',
-                age: '',
-                gender: ''
-            }
-        })
-        .then(() =>
-            this.setState({
-                Username: '',
-                Password: '',
-            })
-        )
-        .catch((err) => console.error(err))
-*/
     render() {
-        const {email, password} = this.state;
+        const {email, password, loading} = this.state;
         const { navigation } = this.props;
+        
         return (
             <SafeAreaView style = {styles.container}>
-
                 <Image source = {{uri: 'https://cdn.clipart.email/4b167aca01293be27c506fbf73b9db37_turbidity-sensors-bikramathens_1600-1600.png'}}
                     style = {styles.logo}/>
 
@@ -120,29 +96,6 @@ export default class Login extends Component {
                     <BlueButton onPress = {() => {
                         if (email.length > 0 && password.length > 0) {
                             this.handleSignUp();
-                            /*
-                            firebase.firestore()
-                                .collection('users')
-                                .where('username', '==', Username)
-                                .get()
-                                .then(snapshot => {
-                                    var users = [];
-                                    snapshot.forEach(doc => {
-                                        users.push(doc.data());
-                                    })
-                                    console.log(users)
-                                    if (users.length) {
-                                        this.setState({
-                                            Username: '',
-                                            Password: '',
-                                        })
-                                        alert('Username already exists')
-                                    } else {
-                                        this.handleCreateUser();
-                                        alert('Sign Up Successful! Please login.')
-                                    }
-                                })
-                            */
                         } else {
                             this.setState({
                                 email: '',
@@ -161,34 +114,6 @@ export default class Login extends Component {
                     <BlueButton onPress = {() => {
                         if(email.length > 0 && password.length > 0) {
                             this.handleSignIn();
-                        /*
-                        firebase.firestore()
-                            .collection('users')
-                            .where('username', '==', Username)
-                            .where('password', '==', Password)
-                            .get()
-                            .then( snapshot => {
-                                var users = [];
-                                snapshot.forEach(doc => {
-                                    users.push(doc.data());
-                                })
-                                console.log(users)
-                                if (users.length) {
-                                    this.setState({
-                                        Username: '',
-                                        Password: '',
-                                    })
-                                    navigation.navigate('Home Page')
-                                } else {
-                                    this.setState({
-                                        Username: '',
-                                        Password: '',
-                                    })
-                                    alert('Incorrect Username or Password')
-                                }
-                            })
-                            .catch(err => console.error(err))
-                        */
                         } else {
                             this.setState({
                                 email: '',
@@ -207,6 +132,12 @@ export default class Login extends Component {
                 <Image source = 
                     {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
+
+                {loading &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size='large' color= 'skyblue'/>
+                </View>}
+
             </SafeAreaView>
         );
     }
@@ -277,4 +208,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         //fontFamily: 'Optima'
     },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 260,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }
 })
