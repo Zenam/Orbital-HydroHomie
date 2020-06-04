@@ -5,9 +5,9 @@ import firebase from './firebaseDb.js'
 
 export default class Settings extends Component {
     state = {
-        height: '',
-        weight: '',
-        age: '',
+        height: 0,
+        weight: 0,
+        age: 0,
         gender: ''
     }
 
@@ -34,27 +34,35 @@ export default class Settings extends Component {
                 <Text style = {styles.header}>
                     To help us calculate the amount of water you should consume, please fill in the following fields.
                 </Text>
+                <Text style = {styles.subHeader}>
+                    Your height in centimetres.
+                </Text>
                 <TextInput
                     style = {styles.textInput}
-                    placeholder = "Your height in centimetres"
                     onChangeText = {this.updateHeight}
                     value = {height}
                 />
+                <Text style = {styles.subHeader}>
+                    Your weight in kilograms.
+                </Text>
                 <TextInput
                     style = {styles.textInput}
-                    placeholder = "Your weight in kilograms"
                     onChangeText = {this.updateWeight}
                     value = {weight}
                 />
+                <Text style = {styles.subHeader}>
+                    Your age in years.
+                </Text>
                 <TextInput
                     style = {styles.textInput}
-                    placeholder = "Your age in years"
                     onChangeText = {this.updateAge}
                     value = {age}
                 />
+                <Text style = {styles.subHeader}>
+                    Your gender.
+                </Text>
                 <TextInput
                     style = {styles.textInput}
-                    placeholder = "Your gender"
                     onChangeText = {this.updateGender}
                     value = {gender}
                 />
@@ -82,7 +90,7 @@ export default class Settings extends Component {
                             alert('Please enter gender as Male or Female')
                         } else {
                             var currentUser = firebase.auth().currentUser.uid;
-                            var target = weight.valueOf() * age / 28.3 * 29.5735;
+                            var target = weight * age / 28.3 * 29.5735;
                             firebase.firestore()
                                 .collection('users')
                                 .doc(currentUser)
@@ -139,7 +147,13 @@ const styles = StyleSheet.create({
     header: {
         color: 'black',
         fontSize: 25,
-        tetAlign: 'center'
+        textAlign: 'center'
+    },
+    subHeader: {
+        color: 'black',
+        fontSize: 15,
+        textAlign: 'center',
+        marginTop: Dimensions.get('window').height*0.015
     },
     buttons: {
         flex: 1,
