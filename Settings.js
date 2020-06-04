@@ -81,13 +81,30 @@ export default class Settings extends Component {
                             })
                             alert('Please enter gender as Male or Female')
                         } else {
-                            var currentUser = firebase.auth().currentUser;
-                                firebase.database()
-                                    .ref('/users/'+currentUser.uid)
-                                    .set(currentUser);
-                            }
+                            var currentUser = firebase.auth().currentUser.uid;
+                            var target = weight.valueOf() * age / 28.3 * 29.5735;
+                            firebase.firestore()
+                                .collection('users')
+                                .doc(currentUser)
+                                .set({
+                                    BasicInfo: {
+                                        Height: height,
+                                        Weight: weight,
+                                        Age: age,
+                                        Gender: gender
+                                    },
+                                    DailyTarget: target
+                                });
+                            this.setState({
+                                height: '',
+                                weight: '',
+                                age: '',
+                                gender: ''
+                            });
+                            alert('Data successfully saved!');
                         }
-                        }>
+                    }
+                    }>
                         <Text>
                             Save
                         </Text>
