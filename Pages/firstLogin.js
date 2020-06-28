@@ -127,7 +127,17 @@ export default class Profile extends Component {
                             alert('Please enter a valid value for age.')
                         } else {
                             var currentUser = firebase.auth().currentUser.uid;
-                            var target = Math.ceil(((((weight * age)/28.3 * 29.5735)) + (exercise/15)*177.5)/100) * 100;
+                            var x;
+                            if (age <= 30) {
+                                x = weight*40
+                            } else if (age <= 55) {
+                                x = weight*35
+                            } else {
+                                x = weight*30
+                            }
+                            var oz = (x/28.3) + ((exercise/15)*10)
+                            var ml = (oz/33.8)*1000
+                            var target = Math.ceil(ml/100) * 100;
                             firebase.firestore()
                                 .collection('users')
                                 .doc(currentUser)

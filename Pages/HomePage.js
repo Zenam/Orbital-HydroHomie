@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import NumericInput from 'react-native-numeric-input';
 import ProgressCircle from 'react-native-progress-circle';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import BlueButton from '../Components/BlueButton.js';
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -60,9 +61,10 @@ export default class HomePage extends Component {
                 }
             })
             dbRef.collection('History').add({
-                year: currentD.getFullYear(), 
+                date: currentD,
+                /*year: currentD.getFullYear(), 
                 month: currentD.getMonth() + 1, 
-                day: currentD.getDate(), 
+                day: currentD.getDate(),*/ 
                 drank: this.state.totalDrank})
             this.setState({toDrink: this.state.start, totalDrank: 0, currentDate: newDate})
         }
@@ -85,7 +87,6 @@ export default class HomePage extends Component {
         const {drinkAmount, toDrink, totalDrank, start, currentDate} = this.state
         
         var per = (totalDrank/start)*100
-        var num = 10
         return (
             <KeyboardAwareScrollView 
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -96,13 +97,13 @@ export default class HomePage extends Component {
                 imageStyle = {styles.background}
                 style = {{width:Dimensions.get('window').width, height: Dimensions.get('window').height}}
                 >
-                    
                 <View style = {styles.target}>
                     <Text style = {styles.header1}>Daily Target:</Text>
                     <Text style = {styles.subheader}> {toDrink} ml</Text>
                     <Text style = {styles.header2}>Amount Drank:</Text>
                     <Text style = {styles.subheader}>{totalDrank} ml</Text>
                 </View>
+
                 <View style = {styles.ring}>
                 <ProgressCircle 
                     percent = {Number((per).toFixed(1))}
@@ -119,6 +120,27 @@ export default class HomePage extends Component {
                         <Text style = {styles.ringText}>COMPLETED</Text>
                 </ProgressCircle>
                 </View>
+
+                <TouchableOpacity style = {styles.sync} 
+                                  onPress = {() => {Alert.alert(
+                                    "Sync Daily Target?",
+                                    "Daily Target will be updated",
+                                    [
+                                      {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                      },
+                                      { text: "OK", onPress: () => {
+                                          this.forceUpdate()
+                                            }
+                                        }
+                                    ],
+                                    { cancelable: false })}}
+                                    >
+                        <Ionicons name={'ios-refresh'} size = {35} color= 'steelblue'/>
+                </TouchableOpacity>
+
                 <View style = {styles.number}>
                     <NumericInput
                     type = 'plus-minus'
@@ -248,6 +270,7 @@ export default class HomePage extends Component {
                         <Ionicons name = {'md-sync'} size = {65} color = {'steelblue'} />
                     </TouchableOpacity>
                 </View>
+                
                 </ImageBackground> 
             </KeyboardAwareScrollView>
         )
@@ -269,6 +292,16 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
         opacity: 0.2
+    },
+    sync: {
+        //height: Dimensions.get('window').height*0.05,
+        alignContent: 'center',
+        //width: Dimensions.get('window').width*0.15,
+        marginHorizontal: Dimensions.get('window').width*0.465,
+        paddingTop: Dimensions.get('window').height*0.005,
+        paddingBottom: Dimensions.get('window').height*0.005,
+        marginBottom: Dimensions.get('window').height*0.01,
+        borderColor: 'skyblue'
     },
     target: {
         flex: 1,
@@ -312,7 +345,7 @@ const styles = StyleSheet.create({
     },
     ring: {
         paddingTop: 50,
-        paddingBottom: 70,
+        paddingBottom: 35,
         paddingHorizontal: 70
     },
     ringText: {
@@ -328,7 +361,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingBottom: 100
+        paddingBottom: 85
         //marginLeft: 5
     },
     undo: {

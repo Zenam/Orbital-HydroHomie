@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, Alert } from 'react-native';
 import BlueButton from '../Components/BlueButton';
 import firebase from '../firebaseDb.js'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -15,7 +15,7 @@ export default class Profile extends Component {
         age: 0,
         gender: '',
         exercise: 0,
-        Target: 0
+        Target: 0,
     }
 
     componentDidMount() {
@@ -146,7 +146,17 @@ export default class Profile extends Component {
                             alert('Please enter a valid value for age.')
                         } else {
                             var currentUser = firebase.auth().currentUser.uid;
-                            var target = Math.ceil(((((weight * age)/28.3 * 29.5735)) + (exercise/15)*177.5)/100) * 100;
+                            var x;
+                            if (age <= 30) {
+                                x = weight*40
+                            } else if (age <= 55) {
+                                x = weight*35
+                            } else {
+                                x = weight*30
+                            }
+                            var oz = (x/28.3) + ((exercise/15)*10)
+                            var ml = (oz/33.8)*1000
+                            var target = Math.ceil(ml/100) * 100;
                             firebase.firestore()
                                 .collection('users')
                                 .doc(currentUser)
@@ -173,10 +183,11 @@ export default class Profile extends Component {
                     </BlueButton>
                 </View>
 
-                <View style = {styles.input}>
+                <View style = {styles.targetInput}>
                     <Text style = {styles.subHeader}>
                         Recommended Daily Target:
                     </Text>
+                    <Text style={styles.innerText}>{Target}ml</Text>
                     <TextInput
                         style = {styles.textInput}
                         onChangeText = {this.updateDailyTarget}
@@ -192,7 +203,7 @@ export default class Profile extends Component {
                                 .doc(currentUser)
                                 .update({DailyTarget: Target,
                                          dayInfo: {goal: Target, total: 0, currentDate: new Date()}})
-                        alert('Daily Target Updated!')}}>
+                        Alert.alert('Daily Target Updated!', 'Please sync Daily Target in the Home page')}}>
                             <Text>Update</Text>
                     </BlueButton>
                 </View>
@@ -215,6 +226,14 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 2,
         borderColor: 'skyblue',
+        paddingVertical: 2,
+        paddingHorizontal: 80,
+        marginVertical: 2,
+        borderRadius: 25,
+    },
+    targetInput: {
+        borderWidth: 2,
+        borderColor: 'skyblue',
         paddingVertical: 5,
         paddingHorizontal: 80,
         marginVertical: 5,
@@ -223,7 +242,7 @@ const styles = StyleSheet.create({
     textInput: {
         color: 'black',
         fontSize: 16,
-        marginTop: Math.round(Dimensions.get('window').height*0.001),
+        //marginTop: Math.round(Dimensions.get('window').height*0.005),
         height: Math.round(Dimensions.get('window').height*0.04),
         width: Math.round(Dimensions.get('window').width*0.55),
         borderColor: 'skyblue',
@@ -234,7 +253,7 @@ const styles = StyleSheet.create({
         color: 'skyblue',
         fontSize: 25,
         textAlign: 'center',
-        marginTop: Dimensions.get('window').height*0.01,
+        marginTop: Dimensions.get('window').height*0.005,
         marginBottom: Dimensions.get('window').height*0.005
     },
     subHeader: {
@@ -246,6 +265,13 @@ const styles = StyleSheet.create({
     button: {
         marginHorizontal: Math.round(Dimensions.get('window').width * 0.05),
         paddingBottom: 8,
-        marginTop: Math.round(Dimensions.get('window').height * 0.005)
+        //marginTop: Math.round(Dimensions.get('window').height * 0.00)
     },
+    innerText: {
+        fontSize: 25,
+        color: 'skyblue',
+        fontWeight: 'bold',
+        textAlign: 'center'
+        
+    }
 })

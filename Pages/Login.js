@@ -99,8 +99,6 @@ export default class Login extends Component {
                     </BlueButton>
                 </View>
 
-                <BlueButton onPress = {() => navigation.navigate('firstLogin')}/>
-
                 <Image source = 
                     {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
    style = {styles.waves}/>
