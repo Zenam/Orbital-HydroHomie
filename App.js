@@ -77,7 +77,7 @@ export default function App() {
             options = {({navigation}) => ({
             title: 'Profile',
             headerLeft: null,
-            //gestureEnabled: false
+            gestureEnabled: false
             /*headerRight: () => (
               <DoneButton onPress = {() => navigation.navigate('Home Page')}/>
             ),*/
