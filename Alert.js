@@ -16,12 +16,14 @@ export default class Alerts extends Component {
         expoToken: ''
     }
 
+    /*
     getExpoToken() {
         let token = Notifications.getExpoPushTokenAsync();
         this.setState({
             expoToken: token
         })
     }
+    */
 
     render() {
         const { notif, startTimeHrs, startTimeMins, endTimeHrs, endTimeMins, expoToken } = this.state
@@ -69,7 +71,7 @@ export default class Alerts extends Component {
                 />
                 <BlueButton onPress = {() => {
                     var currentUser = firebase.auth().currentUser;
-                    this.getExpoToken();
+                    // this.getExpoToken();
                     firebase.firestore()
                         .collection('users')
                         .doc(currentUser.uid)
