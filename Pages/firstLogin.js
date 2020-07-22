@@ -95,7 +95,7 @@ export default class Profile extends Component {
                     labelFontSize = {16}
                     value = {gender}
                     baseColor = 'skyblue'
-                    containerStyle = {{marginVertical: 15}}
+                    containerStyle = {{marginVertical: Dimensions.get('window').height*0.0175}}
                     />
 
                     <Dropdown 
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 2,
         borderColor: 'skyblue',
-        paddingVertical: 5,
-        paddingHorizontal: 80,
+        paddingVertical: Dimensions.get('window').height*0.0058,
+        paddingHorizontal: Dimensions.get('window').height*0.09,
         marginTop: Math.round(Dimensions.get('window').height*0.001),
         marginBottom: Math.round(Dimensions.get('window').height*0.02),
         borderRadius: 25,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: Math.round(Dimensions.get('window').width * 0.05),
-        paddingBottom: 8,
+        paddingBottom: Dimensions.get('window').height*0.0093,
         marginTop: Math.round(Dimensions.get('window').height * 0.005)
     },
     ps: {

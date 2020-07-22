@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        top: 260,
+        top: Dimensions.get('window').height*0.3,
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',

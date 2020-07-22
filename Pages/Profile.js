@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Dimensions, Alert } from 'react-native';
 import BlueButton from '../Components/BlueButton';
 import firebase from '../firebaseDb.js'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Dropdown } from 'react-native-material-dropdown';
-//import moment from 'moment';
-/*import {myStore} from '../Redux/store.js'
-import {setGoal} from '../Redux/actions.js'*/
 
 export default class Profile extends Component {
     state = {
@@ -114,7 +111,7 @@ export default class Profile extends Component {
                     labelFontSize = {16}
                     value = {gender}
                     baseColor = 'skyblue'
-                    containerStyle = {{marginVertical: 15}}
+                    containerStyle = {{marginVertical: Dimensions.get('window').height*0.0175}}
                     />
 
                     <Dropdown 
@@ -191,7 +188,6 @@ export default class Profile extends Component {
                     <TextInput
                         style = {styles.textInput}
                         onChangeText = {this.updateDailyTarget}
-                        //defaultValue = {Target}
                         value = {Target}
                         keyboardType = 'numeric'
                     />
@@ -224,20 +220,20 @@ const styles = StyleSheet.create({
         //backgroundColor: 'skyblue'
     },
     input: {
-        borderWidth: 2,
+        borderWidth: Dimensions.get('window').height*0.00233,
         borderColor: 'skyblue',
-        paddingVertical: 2,
-        paddingHorizontal: 80,
-        marginVertical: 2,
-        borderRadius: 25,
+        paddingVertical: Dimensions.get('window').height*0.00233,
+        paddingHorizontal: Dimensions.get('window').height*0.0933,
+        marginVertical: Dimensions.get('window').height*0.00233,
+        borderRadius: Dimensions.get('window').height*0.029,
     },
     targetInput: {
-        borderWidth: 2,
+        borderWidth: Dimensions.get('window').height*0.00233,
         borderColor: 'skyblue',
-        paddingVertical: 5,
-        paddingHorizontal: 80,
-        marginVertical: 5,
-        borderRadius: 25,
+        paddingVertical: Dimensions.get('window').height*0.00583,
+        paddingHorizontal: Dimensions.get('window').height*0.0933,
+        marginVertical: Dimensions.get('window').height*0.00583,
+        borderRadius: Dimensions.get('window').height*0.029,
     },
     textInput: {
         color: 'black',
@@ -246,7 +242,7 @@ const styles = StyleSheet.create({
         height: Math.round(Dimensions.get('window').height*0.04),
         width: Math.round(Dimensions.get('window').width*0.55),
         borderColor: 'skyblue',
-        borderBottomWidth: 2,
+        borderBottomWidth: Dimensions.get('window').height*0.00233,
         textAlign: 'center',
     },
     header: {
@@ -264,14 +260,12 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: Math.round(Dimensions.get('window').width * 0.05),
-        paddingBottom: 8,
-        //marginTop: Math.round(Dimensions.get('window').height * 0.00)
+        paddingBottom: Dimensions.get('window').height*0.00933,
     },
     innerText: {
         fontSize: 25,
         color: 'skyblue',
         fontWeight: 'bold',
         textAlign: 'center'
-        
     }
 })

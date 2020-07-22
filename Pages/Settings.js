@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     buttons: {
         flexDirection: 'row',
-        paddingVertical: 15,
+        paddingVertical: Dimensions.get('window').height*0.0175,
         marginLeft:  Math.round(Dimensions.get('window').width*0.02)
     },
     email: {
@@ -135,13 +135,13 @@ const styles = StyleSheet.create({
         marginTop: Math.round(Dimensions.get('window').height*0.1)
     },
     logout: {
-        paddingHorizontal: 26,
-        paddingVertical: 8
+        paddingHorizontal: Dimensions.get('window').height*0.0303,
+        paddingVertical: Dimensions.get('window').height*0.00933
     },
     delete: {
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        borderRadius: 20
+        paddingHorizontal: Dimensions.get('window').height*0.02917,
+        paddingVertical: Dimensions.get('window').height*0.01167,
+        borderRadius: Dimensions.get('window').height*0.0233
     },
     dialogInput: {
         textAlign: 'center'

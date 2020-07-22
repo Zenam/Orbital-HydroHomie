@@ -124,21 +124,21 @@ const styles = StyleSheet.create({
         height: Math.round(Dimensions.get('window').height*0.04),
         width: Math.round(Dimensions.get('window').width*0.55),
         borderColor: 'skyblue',
-        borderBottomWidth: 2,
-        borderRadius: 8,
+        borderBottomWidth: Dimensions.get('window').height*0.00233,
+        borderRadius: Dimensions.get('window').height*0.00933,
         textAlign: 'center'
     },
     buttons: {
-        paddingTop: 35
+        paddingTop: Dimensions.get('window').height*0.0408
     },
     button:{
-        paddingBottom: 10
+        paddingBottom: Dimensions.get('window').height*0.01167
     },
     loading: {
         position: 'absolute',
         left: 0,
         right: 0,
-        top: 260,
+        top: Dimensions.get('window').height*0.303,
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',

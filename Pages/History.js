@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView} from 'react-native';
 import {LineChart, BarChart, DotContent} from "react-native-chart-kit";
-//import { BarChart, Grid } from 'react-native-svg-charts'
 import firebase from '../firebaseDb.js'
 import { FlatList } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -10,10 +9,6 @@ export default class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            /*year: '',
-            month: '',
-            minDate: 0,
-            maxDate: 0,*/
             dataPoints: [0],
             label: [0],
             list: [0],
@@ -28,52 +23,35 @@ export default class History extends Component {
         "July", "August", "September", "October", "November", "December"
         ]*/
         this.setState({dataPoints: [0], label: [0], list: [0]})
-        //for (x = 0; x < num; x+1) {
-            //var currMonth = firstMonth - x
-        dbRef/*.where('year', '==', year)
-                .where('month', '==', month)*/
-                .orderBy('date', 'asc')
-                .limit(7)
-                .get()
-                .then(snapShot => {
-                    var myData = [0, 0, 0, 0, 0, 0, 0];
-                    var myDates = this.getPast7Days();
-                    //console.log(myDates)
-                    var myLabel = []
-                    var myList = []
-                    for (var i = 0; i < myDates.length; i++) {
-                        //console.log(typeof myDates[i])
-                        myLabel.push(myDates[i].getDate()+'/'+(myDates[i].getMonth()+1));
-                        var obj = {};
-                        obj['date'] = myDates[i].getDate()+'/'+(myDates[i].getMonth()+1)+'/'+myDates[i].getFullYear();
-                        obj['drank'] = 0;
-                        myList.push(obj)
-                    }
-                    //console.log(typeof myList[0]['date'])
-                    if (snapShot.empty) {
-                        //total = 0
-                        //this.setState({dataPoints:[0], label: [months[month - 1]]})
-                    } else {
-                        snapShot.forEach(doc => {
-                            var x = doc.data().date.toDate()
-                            //var counter = 0
-                            for (var d = 0; d < 7; d++) {
-                                if (this.compareDate(x, myDates[d])) {
-                                    myData[d] = doc.data().drank;
-                                    myList[d]['drank'] = doc.data().drank
-                                }
+        dbRef.orderBy('date', 'asc')
+             .limit(7)
+             .get()
+             .then(snapShot => {
+                var myData = [0, 0, 0, 0, 0, 0, 0];
+                var myDates = this.getPast7Days();
+                var myLabel = []
+                var myList = []
+                for (var i = 0; i < myDates.length; i++) {
+                    myLabel.push(myDates[i].getDate()+'/'+(myDates[i].getMonth()+1));
+                    var obj = {};
+                    obj['date'] = myDates[i].getDate()+'/'+(myDates[i].getMonth()+1)+'/'+myDates[i].getFullYear();
+                    obj['drank'] = 0;
+                    myList.push(obj)
+                }
+                if (snapShot.empty) {
+                } else {
+                    snapShot.forEach(doc => {
+                        var x = doc.data().date.toDate()
+                        for (var d = 0; d < 7; d++) {
+                            if (this.compareDate(x, myDates[d])) {
+                                myData[d] = doc.data().drank;
+                                myList[d]['drank'] = doc.data().drank
                             }
-                                /*myData.push(doc.data().drank);
-                                myLabel.push(doc.data().day+'/'+doc.data().month)
-                                myList.push(doc.data())*/
-                        })
-                    }
-                    //this.state.dataPoints.push(total)
-                    //this.state.label.push(months[firstMonth - 1])
-                    this.setState({dataPoints: myData, label: myLabel, list: myList})
-                    //console.log(this.state.list[0]['date'].getDate())
-                }).catch(error => console.log(error))
-        //}
+                        }
+                    })
+                }
+                this.setState({dataPoints: myData, label: myLabel, list: myList})
+            }).catch(error => console.log(error))
     }
 
     compareDate = (d1,d2) => {
@@ -95,9 +73,6 @@ export default class History extends Component {
     }
     
     componentDidMount() {
-        /*var mon = new Date().getMonth() + 1
-        var yr = new Date().getFullYear()
-        var date = new Date().getDate()*/
         this.getDataPoints()
     }
 
@@ -110,11 +85,9 @@ export default class History extends Component {
             datasets: [
               {
                 data: dataPoints,
-                //color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // optional
                 strokeWidth: 2 // optional
               }
             ],
-            //legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
         };
         const chartConfig = {
             backgroundColor: '#1cc910',
@@ -139,11 +112,8 @@ export default class History extends Component {
                     height={Dimensions.get("window").height*0.35}
                     chartConfig={chartConfig}
                     fromZero = {true}
-                    //verticalLabelRotation = {}
                     yAxisInterval = {10}
                     //bezier
-                    //onDataPointClick ={() => this.setState({dataPoint: 5})}
-                    //renderDotContent={({x, y, index}) => <DotContent key={index} x={x} y={y} value={data.datasets[0].data[index]}/>}
                 />
                 </View>
 
@@ -180,7 +150,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         width: Math.round(Dimensions.get('window').width),
-        borderTopWidth: 3,
+        borderTopWidth: Dimensions.get('window').height*0.0035,
         borderColor: 'skyblue'
     },
     list: {
@@ -188,7 +158,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         borderColor: 'skyblue',
-        borderBottomWidth: 1,
+        borderBottomWidth: Dimensions.get('window').height*0.00117,
         paddingVertical: Math.round(Dimensions.get('window').height*0.03)
     },
     listText: {

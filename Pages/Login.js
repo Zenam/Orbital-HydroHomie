@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Dimensions, SafeAreaView, KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import BlueButton from '../Components/BlueButton';
 import firebase from '../firebaseDb';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Login extends Component {
     constructor(props) {
@@ -98,6 +99,13 @@ export default class Login extends Component {
                         </Text>
                     </BlueButton>
                 </View>
+                
+                <TouchableOpacity style = {styles.forgot}
+                    onPress = {() => {
+                        navigation.navigate('forgotPassword')
+                    }}>
+                    <Text style = {styles.forgotText}>Forget Password?</Text>
+                </TouchableOpacity>
 
                 <Image source = 
                     {{uri:'https://library.kissclipart.com/20181122/pgw/kissclipart-water-png-vector-clipart-clip-art-de0aecfaece25fee.png'}}
@@ -157,13 +165,13 @@ const styles = StyleSheet.create({
         color: 'green'
     },
     waves: {
-        marginTop: Math.round(Dimensions.get('window').height*0.06),
+        marginTop: -Math.round(Dimensions.get('window').height*0.05),
         width: Dimensions.get('window').width,
         height: Math.round(Dimensions.get('window').height*0.4)
     },
     text: {
-        marginTop: 1,
-        marginBottom: 1,
+        marginTop: Dimensions.get('window').height*0.00117,
+        marginBottom: Dimensions.get('window').height*0.00117,
         fontSize: 20,
         fontWeight: 'bold',
         width: Math.round(Dimensions.get('window').width),
@@ -182,9 +190,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        top: 260,
+        top: Dimensions.get('window').height*0.3675,
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',
-      }
+      },
+    forgot: {
+        marginTop: Math.round(Dimensions.get('window').height*0.075),
+        paddingBottom: Math.round(Dimensions.get('window').height*0.05),
+    },
+    forgotText: {
+        color: 'silver',
+        fontSize: 12,
+        textDecorationLine: 'underline',
+    }
 })

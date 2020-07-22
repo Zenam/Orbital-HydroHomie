@@ -6,7 +6,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NumericInput from 'react-native-numeric-input';
 import ProgressCircle from 'react-native-progress-circle';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import BlueButton from '../Components/BlueButton.js';
 
 export default class HomePage extends Component {
@@ -311,13 +310,13 @@ const styles = StyleSheet.create({
         padding: 80,
     },
     header1: {
-        marginTop: 120,
-        paddingBottom:30,
+        marginTop: Dimensions.get('window').height*0.15,
+        paddingBottom: Dimensions.get('window').height*0.035,
         fontSize: 25,
         color: 'steelblue'
     },
     header2: {
-        marginTop: 10,
+        marginTop: Dimensions.get('window').height*0.01,
         fontSize: 25,
         color: 'steelblue'
     },
@@ -325,9 +324,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
-        paddingHorizontal: 30,
-        paddingVertical: 3,
-        marginTop: 5,
+        paddingHorizontal: Dimensions.get('window').height*0.035,
+        paddingVertical: Dimensions.get('window').height*0.003,
+        marginTop: Dimensions.get('window').height*0.005,
         backgroundColor: 'skyblue',
         borderRadius: 12,
         overflow: 'hidden'
@@ -338,15 +337,15 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: 'skyblue',
         overflow: 'hidden',
-        paddingHorizontal: 65,
-        paddingVertical: 10,
-        marginBottom: 30,
-        marginLeft: 58
+        paddingHorizontal: Dimensions.get('window').height*0.07,
+        paddingVertical: Dimensions.get('window').height*0.01,
+        marginBottom: Dimensions.get('window').height*0.035,
+        marginLeft: Dimensions.get('window').height*0.065
     },
     ring: {
-        paddingTop: 50,
-        paddingBottom: 35,
-        paddingHorizontal: 70
+        paddingTop: Dimensions.get('window').height*0.058,
+        paddingBottom: Dimensions.get('window').height*0.04,
+        paddingHorizontal: Dimensions.get('window').width*0.154
     },
     ringText: {
         fontSize: 20,
@@ -354,28 +353,27 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     number: {
-        paddingHorizontal:120
+        paddingHorizontal: Dimensions.get('window').width*0.283
     },
     buttons: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingBottom: 85
-        //marginLeft: 5
+        paddingBottom: Dimensions.get('window').height*0.1
     },
     undo: {
-        paddingLeft: 33,
-        marginTop: 7
+        paddingLeft: Dimensions.get('window').height*0.038,
+        marginTop: Dimensions.get('window').height*0.008
     },
     drinkButton: {
-        paddingTop: 15,
-        marginRight: 15,
-        marginLeft: -35
+        paddingTop: Dimensions.get('window').height*0.0175,
+        marginRight: Dimensions.get('window').height*0.0175,
+        marginLeft: -Dimensions.get('window').height*0.04
     },
     reset: {
-        marginTop: 8,
-        marginLeft: 12,
-        marginRight: 40
+        marginTop: Dimensions.get('window').height*0.009,
+        marginLeft: Dimensions.get('window').height*0.014,
+        marginRight: Dimensions.get('window').height*0.045
     }
 })
