@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Image, StatusBar, SafeAreaView, Dimensions, Tou
 import Login from './Pages/Login';
 import HomeTabs from './Navigation/HomeTab'
 import firstLogin from './Pages/firstLogin'
+import forgotPassword from './Pages/forgotPassword'
 import ProfileButton from './Components/profileButton'
-import DoneButton from './Components/doneButton'
 import SignUp from './Pages/SignUp'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderTitle, HeaderBackButton } from '@react-navigation/stack';
@@ -82,6 +82,11 @@ export default function App() {
               <DoneButton onPress = {() => navigation.navigate('Home Page')}/>
             ),*/
             })}/>
+          <Stack.Screen name = 'forgotPassword' component={forgotPassword}
+            options = {{
+              title: 'Reset Password',
+            }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   )
