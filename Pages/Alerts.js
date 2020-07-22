@@ -77,13 +77,24 @@ export default class Alerts extends Component {
                 <Text style = {styles.subHeader}>
                     Select the frequency at which you would like to receive reminders:
                 </Text>
+                <Text style = {styles.subHeader}>
+                    Select 0 if you would not like to receive notifications
+                </Text>
                 <DropDownPicker
                     items = {[
-                        {label: '1', value: 1},
-                        {label: '2', value: 2},
-                        {label: '3', value: 3},
-                        {label: '4', value: 4},
-                        {label: '5', value: 5},
+                        {label: '0 hrs', value: 0},
+                        {label: '1 hr', value: 1},
+                        {label: '2 hrs', value: 2},
+                        {label: '3 hrs', value: 3},
+                        {label: '4 hrs', value: 4},
+                        {label: '5 hrs', value: 5},
+                        {label: '6 hrs', value: 6},
+                        {label: '7 hrs', value: 7},
+                        {label: '8 hrs', value: 8},
+                        {label: '9 hrs', value: 9},
+                        {label: '10 hrs', value: 10},
+                        {label: '11 hrs', value: 11},
+                        {label: '12 hrs', value: 12},
                     ]}
                     defaultValue = {this.state.time}
                     containerStyle = {{height: 40}}
@@ -109,7 +120,9 @@ export default class Alerts extends Component {
                                 notifFrequency: time
                             }
                         });
-                    setInterval(() => {this.sendPushNotification();}, this.state.time*60*60*1000);
+                    if (this.state.time !== 0) {
+                        setInterval(() => {this.sendPushNotification();}, this.state.time*60*60*1000);
+                    }
                 }}>
                     <Text style = {styles.buttonText}>
                         Save
