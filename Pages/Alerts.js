@@ -97,7 +97,7 @@ export default class Alerts extends Component {
                         {label: '12 hrs', value: 12},
                     ]}
                     defaultValue = {this.state.time}
-                    containerStyle = {{height: 40}}
+                    containerStyle = {{height: 40, width: 150, marginTop: 15}}
                     style = {{backgroundColor: '#fafafa'}}
                     itemStyle = {{
                         justifyContent: 'flex-start'
@@ -179,6 +179,6 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 15,
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
     }
 })
